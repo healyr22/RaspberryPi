@@ -4,7 +4,7 @@ BULBS=$2
 
 function onClick {
     #code to be ran on click
-    python /home/pi/Desktop/dash/toggle.py $BULBS
+    python toggle.py $BULBS
 }
 
 if [ -z "$(ifconfig | grep 'mon0')" ] # if not already up
