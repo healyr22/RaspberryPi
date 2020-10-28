@@ -12,7 +12,8 @@ jobs:
         FIRST_NAME: Mona
         middle_name: The
         Last_Name: Octocat
-    - name: Try Calling Separate Action
-      uses: ./action
+     - uses: actions/checkout@v1
+    - name: Try???
+       uses: ./.github/actions/action
       with:
         name: "Roberto!"
