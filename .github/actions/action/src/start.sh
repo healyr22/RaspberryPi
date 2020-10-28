@@ -42,3 +42,11 @@ codeowners-generator generate
 git status
 
 echo "DONE";
+
+if [ -z "$(git status --porcelain)" ]; then 
+  # Working directory clean
+  export RESULT=0
+else 
+  # Uncommitted changes
+  export RESULT=-1
+fi

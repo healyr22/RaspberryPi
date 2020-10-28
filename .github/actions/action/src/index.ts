@@ -35,6 +35,8 @@ export const main = async () => {
         await exec('bash', [path.join(__dirname, './start.sh')]);
         console.log("Ran script");
 
+        console.log("Result: " + process.env["RESULT"]);
+
         setOutput('name', name);
     } catch(e) {
         console.error(err);

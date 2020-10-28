@@ -78,6 +78,7 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
                 // console.log("Owners: " + JSON.stringify(owners));
                 _a.sent();
                 console.log("Ran script");
+                console.log("Result: " + process.env["RESULT"]);
                 core_1.setOutput('name', name_1);
                 return [3 /*break*/, 3];
             case 2:
