@@ -6,6 +6,7 @@ jobs:
     steps:
     - name: Hello world
       run: echo Hello world $FIRST_NAME $middle_name $Last_Name!
+      run: echo "Hello ${{ github.event }}!"
       env:
         FIRST_NAME: Mona
         middle_name: The
