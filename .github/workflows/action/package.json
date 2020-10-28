@@ -1,0 +1,47 @@
+{
+  "name": "rob-test-lambda",
+  "repository": "TODO.git",
+  "license": "MIT",
+  "version": "0.0.1",
+  "description": "Test Action",
+  "main": "index.ts",
+  "scripts": {
+    "test": "jest",
+    "build": "ncc build index.ts",
+    "lint": "eslint index.ts"
+  },
+  "engines": {
+    "node": ">12.0.0"
+  },
+  "author": "Rob Healy <robert.healy3@gmail.com>",
+  "dependencies": {
+    "@actions/core": "^1.2.6"
+  },
+  "devDependencies": {
+    "@types/jest": "26.0.15",
+    "@types/node": "13.13.28",
+    "@typescript-eslint/eslint-plugin": "4.5.0",
+    "@typescript-eslint/parser": "4.5.0",
+    "@zeit/ncc": "0.22.3",
+    "ajv-keywords": "3.5.2",
+    "bufferutil": "4.0.1",
+    "canvas": "2.6.1",
+    "eslint": "7.12.0",
+    "eslint-config-prettier": "6.14.0",
+    "husky": "4.3.0",
+    "jest": "26.6.1",
+    "jest-mock-process": "1.4.0",
+    "lint-staged": "10.4.2",
+    "ncc": "0.3.6",
+    "prettier": "2.1.2",
+    "prettier-eslint": "11.0.0",
+    "prettier-eslint-cli": "5.0.0",
+    "pretty-quick": "3.1.0",
+    "ts-jest": "26.4.2",
+    "ts-node": "9.0.0",
+    "tslib": "2.0.3",
+    "typescript": "^4.0.3",
+    "utf-8-validate": "5.0.2",
+    "ws": "7.3.1"
+  }
+}
