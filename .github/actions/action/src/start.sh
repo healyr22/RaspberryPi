@@ -33,8 +33,12 @@ echo "Script Got $INPUT_NAME";
 
 ls
 
+git status
+
 sudo npm -g install codeowners-generator
 
-codeowners-generator --help
+codeowners-generator generate
+
+git status
 
 echo "DONE";
