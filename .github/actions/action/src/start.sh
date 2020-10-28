@@ -33,7 +33,7 @@ echo "Script Got $INPUT_NAME";
 
 ls
 
-npm install codeowners-generator
+sudo npm -g install codeowners-generator
 
 codeowners-generator --help
 
