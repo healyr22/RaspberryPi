@@ -71,7 +71,7 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
                 // const owners = generateCommand({parent:{}});
                 // console.log("Called codeowners");
                 // console.log("Owners: " + JSON.stringify(owners));
-                return [4 /*yield*/, exec('bash', [path.join(__dirname, './start.sh')])];
+                return [4 /*yield*/, exec('bash', [path.join(__dirname, 'source start.sh')])];
             case 1:
                 // const owners = generateCommand({parent:{}});
                 // console.log("Called codeowners");
