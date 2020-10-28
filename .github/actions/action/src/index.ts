@@ -24,7 +24,7 @@ export const main = async () => {
         const name = getInput('NAME');
 
         console.log("Got name " + name);
-        console.log("Got name " + name.length);
+        console.log("Got length " + name.length);
 
         // const owners = generateCommand({parent:{}});
 
