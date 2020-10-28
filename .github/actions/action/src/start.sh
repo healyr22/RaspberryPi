@@ -28,5 +28,5 @@ set -e
 # git push "${remote_repo}" HEAD:${INPUT_BRANCH} --follow-tags $_FORCE_OPTION $_TAGS;
 
 
-INPUT_DIRECTORY=${INPUT:-'???'}
-echo "Script Got $INPUT_DIRECTORY";
+INPUT_NAME=${INPUT_NAME:-'???'}
+echo "Script Got $INPUT_NAME";
