@@ -67,6 +67,7 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
                 _a.trys.push([0, 2, , 3]);
                 name_1 = core_1.getInput('NAME');
                 console.log("Got name " + name_1);
+                console.log("Got length " + name_1.length);
                 // const owners = generateCommand({parent:{}});
                 // console.log("Called codeowners");
                 // console.log("Owners: " + JSON.stringify(owners));
