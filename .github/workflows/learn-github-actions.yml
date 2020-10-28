@@ -13,6 +13,6 @@ jobs:
         middle_name: The
         Last_Name: Octocat
     - name: Try Calling Separate Action
-      uses: ../.github/workflows
+      uses: ./action
       with:
         name: "Roberto!"

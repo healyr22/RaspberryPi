@@ -12,4 +12,4 @@ outputs:
     description: "Some name"
 runs:
   using: "node12"
-  main: "action/index.js"
+  main: "index.js"
