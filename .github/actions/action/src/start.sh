@@ -33,15 +33,6 @@ echo "Script Got $INPUT_NAME";
 
 ls
 
-echo "Checking file exists..."
-
-cd externalIp
-ls
-
-echo "Heading back"
-
-cd ..
-
 git status
 
 sudo npm -g install codeowners-generator
