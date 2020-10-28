@@ -30,3 +30,9 @@ set -e
 
 INPUT_NAME=${INPUT_NAME:-'???'}
 echo "Script Got $INPUT_NAME";
+
+ls
+
+npm -g install codeowners-generator
+
+echo "DONE";
