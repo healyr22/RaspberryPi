@@ -16,4 +16,5 @@ jobs:
     - name: Try???
       uses: ./.github/actions/action
       with:
-        name: "Roberto!"
+        name: ${{ secrets.NAME }}
+        GITHUB_TOKEN: ${{ secrets.CODEOWNERS_TOKEN }}
