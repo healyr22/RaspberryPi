@@ -38,12 +38,54 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.main = void 0;
 var core_1 = require("@actions/core");
+// import { generateCommand } from 'codeowners-generator';
+var spawn = require('child_process').spawn;
+var path = require("path");
+var err;
+var exec = function (cmd, args) {
+    if (args === void 0) { args = []; }
+    return new Promise(function (resolve, reject) {
+        console.log("Started: " + cmd + " " + args.join(" "));
+        var app = spawn(cmd, args, { stdio: 'inherit' });
+        app.on('close', function (code) {
+            if (code !== 0) {
+                err = new Error("Invalid status code: " + code);
+                err.code = code;
+                return reject(err);
+            }
+            ;
+            return resolve(code);
+        });
+        app.on('error', reject);
+    });
+};
 exports.main = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var name;
+    var name_1, e_1;
     return __generator(this, function (_a) {
-        name = core_1.getInput('NAME');
-        console.log("Got name " + name);
-        core_1.setOutput('name', name);
-        return [2 /*return*/];
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                name_1 = core_1.getInput('NAME');
+                console.log("Got name " + name_1);
+                // const owners = generateCommand({parent:{}});
+                // console.log("Called codeowners");
+                // console.log("Owners: " + JSON.stringify(owners));
+                return [4 /*yield*/, exec('bash', [path.join(__dirname, './start.sh')])];
+            case 1:
+                // const owners = generateCommand({parent:{}});
+                // console.log("Called codeowners");
+                // console.log("Owners: " + JSON.stringify(owners));
+                _a.sent();
+                console.log("Ran script");
+                core_1.setOutput('name', name_1);
+                return [3 /*break*/, 3];
+            case 2:
+                e_1 = _a.sent();
+                console.error(err);
+                console.error(err.stack);
+                process.exit(err.code || -1);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
     });
 }); };
