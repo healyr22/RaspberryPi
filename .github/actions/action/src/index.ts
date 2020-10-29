@@ -7,6 +7,10 @@ const spawn = require('child_process').spawn;
 const path = require("path");
 var err;
 var result;
+type statusType =
+| "in_progress" | "completed";
+type conclusionType =
+| "success" | "failure";
 
 const exec = (cmd, args=[]) => new Promise((resolve, reject) => {
     console.log(`Started: ${cmd} ${args.join(" ")}`)
@@ -23,9 +27,7 @@ const exec = (cmd, args=[]) => new Promise((resolve, reject) => {
     app.on('error', reject);
 });
 
-const createCheckRun = () => new Promise((resolve, reject) => {
-    type statusType =
-  | "in_progress" | "queued" | "completed";
+const createCheckRun = async () => {
     console.log("Creating check run...");
     const GITHUB_TOKEN = getInput('GITHUB_TOKEN');
 
@@ -40,7 +42,6 @@ const status : statusType = "in_progress"
         "owner": github.context.payload.repository.owner.login,
         "repo": github.context.payload.repository.name,
         "head_sha": github.context.sha,
-        "status": status,
         "output": {
             "title": "Created check-run!",
             "summary": "This is a summary!"
@@ -49,12 +50,57 @@ const status : statusType = "in_progress"
 
     console.log("Payload: " + JSON.stringify(payload));
     
-    octokit.checks.create(payload);
-});
+    await octokit.checks.create(payload);
+};
+
+const success = async () => {
+    console.log("Marking check run successful...");
+    const GITHUB_TOKEN = getInput('GITHUB_TOKEN');
+
+    const octokit = new Octokit({
+        auth: GITHUB_TOKEN
+    });
+
+    console.log("Fithub context: " + JSON.stringify(github.context));
+
+    const status : statusType = "completed"
+    const conclusion : conclusionType = "success"
+
+    var payload = {
+        "name": "Created!!",
+        "owner": github.context.payload.repository.owner.login,
+        "repo": github.context.payload.repository.name,
+        "check_run_id": github.context.payload.check_run.id,
+        "head_sha": github.context.sha,
+        "status": status,
+        "output": {
+            "title": "Created check-run!",
+            "summary": "This is a summary!"
+        },
+        "conclusion": conclusion
+    };
+
+    console.log("Payload: " + JSON.stringify(payload));
+    
+    await octokit.checks.update(payload);
+};
 
 export const main = async () => {
+    const action = getInput("action");
+
+    switch(action) {
+        case "CREATE_CHECK":
+            // Create the check-run
+            createCheckRun();
+            break;
+        case "SUCCESS":
+            success();
+    }
+
+
+
     try {
-        await createCheckRun();
+        createCheckRun();
         // Get the JSON webhook payload for the event that triggered the workflow
         // console.log("Run ID: " + github.run_id);
         // const payload = JSON.stringify(github.context.payload, undefined, 2)

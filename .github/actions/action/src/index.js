@@ -63,36 +63,87 @@ var exec = function (cmd, args) {
         app.on('error', reject);
     });
 };
-var createCheckRun = function () { return new Promise(function (resolve, reject) {
-    console.log("Creating check run...");
-    var GITHUB_TOKEN = core_1.getInput('GITHUB_TOKEN');
-    var octokit = new rest_1.Octokit({
-        auth: GITHUB_TOKEN
-    });
-    var status = "in_progress";
-    var payload = {
-        "name": "Created!!",
-        "owner": github.context.payload.repository.owner.login,
-        "repo": github.context.payload.repository.name,
-        "head_sha": github.context.sha,
-        "status": status,
-        "output": {
-            "title": "Created check-run!",
-            "summary": "This is a summary!"
-        }
-    };
-    console.log("Payload: " + JSON.stringify(payload));
-    octokit.checks.create(payload);
-}); };
-exports.main = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var name_1, token, APP_ID, INSTALLATION_ID, result_1, e_1;
+var createCheckRun = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var GITHUB_TOKEN, octokit, status, payload;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 3, , 4]);
-                return [4 /*yield*/, createCheckRun()];
+                console.log("Creating check run...");
+                GITHUB_TOKEN = core_1.getInput('GITHUB_TOKEN');
+                octokit = new rest_1.Octokit({
+                    auth: GITHUB_TOKEN
+                });
+                status = "in_progress";
+                payload = {
+                    "name": "Created!!",
+                    "owner": github.context.payload.repository.owner.login,
+                    "repo": github.context.payload.repository.name,
+                    "head_sha": github.context.sha,
+                    "output": {
+                        "title": "Created check-run!",
+                        "summary": "This is a summary!"
+                    }
+                };
+                console.log("Payload: " + JSON.stringify(payload));
+                return [4 /*yield*/, octokit.checks.create(payload)];
             case 1:
                 _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); };
+var success = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var GITHUB_TOKEN, octokit, status, conclusion, payload;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                console.log("Marking check run successful...");
+                GITHUB_TOKEN = core_1.getInput('GITHUB_TOKEN');
+                octokit = new rest_1.Octokit({
+                    auth: GITHUB_TOKEN
+                });
+                console.log("Fithub context: " + JSON.stringify(github.context));
+                status = "completed";
+                conclusion = "success";
+                payload = {
+                    "name": "Created!!",
+                    "owner": github.context.payload.repository.owner.login,
+                    "repo": github.context.payload.repository.name,
+                    "check_run_id": github.context.payload.check_run.id,
+                    "head_sha": github.context.sha,
+                    "status": status,
+                    "output": {
+                        "title": "Created check-run!",
+                        "summary": "This is a summary!"
+                    },
+                    "conclusion": conclusion
+                };
+                console.log("Payload: " + JSON.stringify(payload));
+                return [4 /*yield*/, octokit.checks.update(payload)];
+            case 1:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); };
+exports.main = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var action, name_1, token, APP_ID, INSTALLATION_ID, result_1, e_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                action = core_1.getInput("action");
+                switch (action) {
+                    case "CREATE_CHECK":
+                        // Create the check-run
+                        createCheckRun();
+                        break;
+                    case "SUCCESS":
+                        success();
+                }
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                createCheckRun();
                 name_1 = core_1.getInput('NAME');
                 token = core_1.getInput('GITHUB_TOKEN');
                 APP_ID = core_1.getInput('APP_ID');
