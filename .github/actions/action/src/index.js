@@ -94,7 +94,10 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, createCheckRun()];
+            case 1:
+                _a.sent();
                 name_1 = core_1.getInput('NAME');
                 token = core_1.getInput('GITHUB_TOKEN');
                 APP_ID = core_1.getInput('APP_ID');
@@ -108,7 +111,7 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
                 console.log("Got name " + name_1);
                 console.log("Got length " + name_1.length);
                 return [4 /*yield*/, exec('bash', [path.join(__dirname, './start.sh')])];
-            case 1:
+            case 2:
                 result_1 = _a.sent();
                 console.log("Ran script");
                 if (result_1 === 0) {
@@ -119,14 +122,14 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
                     // Create check run
                 }
                 core_1.setOutput('name', name_1);
-                return [3 /*break*/, 3];
-            case 2:
+                return [3 /*break*/, 4];
+            case 3:
                 e_1 = _a.sent();
                 console.error(err);
                 console.error(err.stack);
                 process.exit(err.code || -1);
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
