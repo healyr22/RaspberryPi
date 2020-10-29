@@ -4,16 +4,18 @@ import { getInput, setOutput, setFailed } from '@actions/core';
 const spawn = require('child_process').spawn;
 const path = require("path");
 var err;
+var result;
 
 const exec = (cmd, args=[]) => new Promise((resolve, reject) => {
     console.log(`Started: ${cmd} ${args.join(" ")}`)
     const app = spawn(cmd, args, { stdio: 'inherit' });
     app.on('close', code => {
-        if(code !== 0){
+        if(code !== 0 && code !== 1){
             err = new Error(`Invalid status code: ${code}`);
             err.code = code;
             return reject(err);
         };
+        result = code;
         return resolve(code);
     });
     app.on('error', reject);
@@ -32,10 +34,14 @@ export const main = async () => {
 
         // console.log("Owners: " + JSON.stringify(owners));
 
-        await exec('bash', ["source", path.join(__dirname, './start.sh')]);
+        const result = await exec('bash', [path.join(__dirname, './start.sh')]);
         console.log("Ran script");
 
-        console.log("Result: " + process.env["RESULT"]);
+        if(result === 0) {
+            console.log("CODEOWNERS ok!");
+        } else {
+            console.log("Need to run codeowners");
+        }
 
         setOutput('name', name);
     } catch(e) {

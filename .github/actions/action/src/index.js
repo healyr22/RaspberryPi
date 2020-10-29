@@ -42,25 +42,27 @@ var core_1 = require("@actions/core");
 var spawn = require('child_process').spawn;
 var path = require("path");
 var err;
+var result;
 var exec = function (cmd, args) {
     if (args === void 0) { args = []; }
     return new Promise(function (resolve, reject) {
         console.log("Started: " + cmd + " " + args.join(" "));
         var app = spawn(cmd, args, { stdio: 'inherit' });
         app.on('close', function (code) {
-            if (code !== 0) {
+            if (code !== 0 && code !== 1) {
                 err = new Error("Invalid status code: " + code);
                 err.code = code;
                 return reject(err);
             }
             ;
+            result = code;
             return resolve(code);
         });
         app.on('error', reject);
     });
 };
 exports.main = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var name_1, e_1;
+    var name_1, result_1, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -68,17 +70,10 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
                 name_1 = core_1.getInput('NAME');
                 console.log("Got name " + name_1);
                 console.log("Got length " + name_1.length);
-                // const owners = generateCommand({parent:{}});
-                // console.log("Called codeowners");
-                // console.log("Owners: " + JSON.stringify(owners));
-                return [4 /*yield*/, exec('bash', [path.join(__dirname, 'source start.sh')])];
+                return [4 /*yield*/, exec('bash', [path.join(__dirname, './test.sh')])];
             case 1:
-                // const owners = generateCommand({parent:{}});
-                // console.log("Called codeowners");
-                // console.log("Owners: " + JSON.stringify(owners));
-                _a.sent();
-                console.log("Ran script");
-                console.log("Result: " + process.env["RESULT"]);
+                result_1 = _a.sent();
+                console.log("Ran script - result=" + result_1);
                 core_1.setOutput('name', name_1);
                 return [3 /*break*/, 3];
             case 2:

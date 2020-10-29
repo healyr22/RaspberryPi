@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+echo "start"
+
 # INPUT_FORCE=${INPUT_FORCE:-false}
 # INPUT_TAGS=${INPUT_TAGS:-false}
 # INPUT_DIRECTORY=${INPUT_DIRECTORY:-'.'}
@@ -45,8 +47,8 @@ echo "DONE";
 
 if [ -z "$(git status --porcelain)" ]; then 
   # Working directory clean
-  export RESULT=0
+  exit 0
 else 
   # Uncommitted changes
-  export RESULT=-1
+  exit 1
 fi
