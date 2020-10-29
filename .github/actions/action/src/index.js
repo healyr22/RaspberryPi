@@ -71,9 +71,9 @@ var createCheckRun = function () { return new Promise(function (resolve, reject)
     });
     console.log("Github info: " + JSON.stringify(github.context));
     var payload = {
-        "owner": github.payload.repository.owner.login,
-        "repo": github.payload.repository.name,
-        "head_sha": github.sha,
+        "owner": github.cotext.payload.repository.owner.login,
+        "repo": github.context.payload.repository.name,
+        "head_sha": github.context.sha,
         "status": "in_progress",
         "output": {
             "title": "Created check-run!",
