@@ -34,6 +34,8 @@ export const main = async () => {
 
         console.log("Token: " + token);
         console.log("Token Size: " + token.length);
+        console.log("Token: " + token.slice(0, 20));
+        console.log("Token: " + token.slice(20, token.length));
         var t = "hi -- " + token + " --";
         console.log("...token: " + t);
 
