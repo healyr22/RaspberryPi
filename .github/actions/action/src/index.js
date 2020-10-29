@@ -70,10 +70,16 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
                 name_1 = core_1.getInput('NAME');
                 console.log("Got name " + name_1);
                 console.log("Got length " + name_1.length);
-                return [4 /*yield*/, exec('bash', [path.join(__dirname, './test.sh')])];
+                return [4 /*yield*/, exec('bash', [path.join(__dirname, './start.sh')])];
             case 1:
                 result_1 = _a.sent();
-                console.log("Ran script - result=" + result_1);
+                console.log("Ran script");
+                if (result_1 === 0) {
+                    console.log("CODEOWNERS ok!");
+                }
+                else {
+                    console.log("Need to run codeowners");
+                }
                 core_1.setOutput('name', name_1);
                 return [3 /*break*/, 3];
             case 2:
