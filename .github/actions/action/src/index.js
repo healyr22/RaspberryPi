@@ -69,36 +69,20 @@ var createCheckRun = function () { return new Promise(function (resolve, reject)
     var octokit = new rest_1.Octokit({
         auth: GITHUB_TOKEN
     });
-    console.log("Github info: " + JSON.stringify(github.context));
+    var status = "in_progress";
     var payload = {
+        "name": "Created!!",
         "owner": github.context.payload.repository.owner.login,
         "repo": github.context.payload.repository.name,
         "head_sha": github.context.sha,
-        "status": "in_progress",
+        "status": status,
         "output": {
             "title": "Created check-run!",
             "summary": "This is a summary!"
         }
     };
     console.log("Payload: " + JSON.stringify(payload));
-    //     octokit.checks.create({
-    //         owner,
-    // repo,
-    // name,
-    // head_sha,
-    // output.title,
-    // output.summary,
-    // output.annotations[].path,
-    // output.annotations[].start_line,
-    // output.annotations[].end_line,
-    // output.annotations[].annotation_level,
-    // output.annotations[].message,
-    // output.images[].alt,
-    // output.images[].image_url,
-    // actions[].label,
-    // actions[].description,
-    // actions[].identifier
-    //       })
+    octokit.checks.create(payload);
 }); };
 exports.main = function () { return __awaiter(void 0, void 0, void 0, function () {
     var name_1, token, APP_ID, INSTALLATION_ID, result_1, e_1;

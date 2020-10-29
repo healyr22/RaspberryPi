@@ -24,6 +24,8 @@ const exec = (cmd, args=[]) => new Promise((resolve, reject) => {
 });
 
 const createCheckRun = () => new Promise((resolve, reject) => {
+    type statusType =
+  | "in_progress" | "queued" | "completed";
     console.log("Creating check run...");
     const GITHUB_TOKEN = getInput('GITHUB_TOKEN');
 
@@ -31,13 +33,14 @@ const createCheckRun = () => new Promise((resolve, reject) => {
         auth: GITHUB_TOKEN
     });
 
-    console.log("Github info: " + JSON.stringify(github.context));
+const status : statusType = "in_progress"
 
     var payload = {
+        "name": "Created!!",
         "owner": github.context.payload.repository.owner.login,
         "repo": github.context.payload.repository.name,
         "head_sha": github.context.sha,
-        "status": "in_progress",
+        "status": status,
         "output": {
             "title": "Created check-run!",
             "summary": "This is a summary!"
@@ -46,24 +49,7 @@ const createCheckRun = () => new Promise((resolve, reject) => {
 
     console.log("Payload: " + JSON.stringify(payload));
     
-//     octokit.checks.create({
-//         owner,
-// repo,
-// name,
-// head_sha,
-// output.title,
-// output.summary,
-// output.annotations[].path,
-// output.annotations[].start_line,
-// output.annotations[].end_line,
-// output.annotations[].annotation_level,
-// output.annotations[].message,
-// output.images[].alt,
-// output.images[].image_url,
-// actions[].label,
-// actions[].description,
-// actions[].identifier
-//       })
+    octokit.checks.create(payload);
 });
 
 export const main = async () => {
