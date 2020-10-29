@@ -1,5 +1,5 @@
 name: codeowners-generate-auto-check
-on: push
+on: [push]
     
 jobs:
   trigger-codeowners-generate-auto:
