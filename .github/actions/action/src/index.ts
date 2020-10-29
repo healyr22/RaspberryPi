@@ -25,11 +25,16 @@ const exec = (cmd, args=[]) => new Promise((resolve, reject) => {
 export const main = async () => {
     try {
         // Get the JSON webhook payload for the event that triggered the workflow
-        console.log("Run ID: " + github.run_id);
+        // console.log("Run ID: " + github.run_id);
         // const payload = JSON.stringify(github.context.payload, undefined, 2)
         // console.log(`The event payload: ${payload}`);
 
         const name = getInput('NAME');
+        const token = getInput('GITHUB_TOKEN');
+
+        console.log("Token: " + token);
+        var t = "hi -- " + token + " --";
+        console.log("...token: " + t);
 
         console.log("Got name " + name);
         console.log("Got length " + name.length);
