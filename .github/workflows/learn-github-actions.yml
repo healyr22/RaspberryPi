@@ -23,4 +23,6 @@ jobs:
       uses: ./.github/actions/action
       with:
         name: ${{ secrets.NAME }}
+        APP_ID: ${{ secrets.APP_ID }}
+        INSTALLATION_ID:  ${{ secrets.APP_INSTALLATION_ID }}
         GITHUB_TOKEN: ${{ steps.auth.outputs.token }}

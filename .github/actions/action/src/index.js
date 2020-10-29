@@ -63,19 +63,21 @@ var exec = function (cmd, args) {
     });
 };
 exports.main = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var name_1, token, t, result_1, e_1;
+    var name_1, token, APP_ID, INSTALLATION_ID, result_1, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 name_1 = core_1.getInput('NAME');
                 token = core_1.getInput('GITHUB_TOKEN');
-                console.log("Token: " + token);
-                console.log("Token Size: " + token.length);
+                APP_ID = core_1.getInput('APP_ID');
+                INSTALLATION_ID = core_1.getInput('INSTALLATION_ID');
                 console.log("Token: " + token.slice(0, 20));
                 console.log("Token: " + token.slice(20, token.length));
-                t = "hi -- " + token + " --";
-                console.log("...token: " + t);
+                console.log("APP_ID: " + APP_ID.slice(0, 3));
+                console.log("APP_ID: " + APP_ID.slice(3, APP_ID.length));
+                console.log("INSTALLATION_ID: " + INSTALLATION_ID.slice(0, 3));
+                console.log("INSTALLATION_ID: " + INSTALLATION_ID.slice(3, INSTALLATION_ID.length));
                 console.log("Got name " + name_1);
                 console.log("Got length " + name_1.length);
                 return [4 /*yield*/, exec('bash', [path.join(__dirname, './start.sh')])];

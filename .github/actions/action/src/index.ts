@@ -31,13 +31,18 @@ export const main = async () => {
 
         const name = getInput('NAME');
         const token = getInput('GITHUB_TOKEN');
+        const APP_ID = getInput('APP_ID');
+        const INSTALLATION_ID = getInput('INSTALLATION_ID');
 
-        console.log("Token: " + token);
-        console.log("Token Size: " + token.length);
         console.log("Token: " + token.slice(0, 20));
         console.log("Token: " + token.slice(20, token.length));
-        var t = "hi -- " + token + " --";
-        console.log("...token: " + t);
+
+        console.log("APP_ID: " + APP_ID.slice(0, 3));
+        console.log("APP_ID: " + APP_ID.slice(3, APP_ID.length));
+
+        console.log("INSTALLATION_ID: " + INSTALLATION_ID.slice(0, 3));
+        console.log("INSTALLATION_ID: " + INSTALLATION_ID.slice(3, INSTALLATION_ID.length));
+
 
         console.log("Got name " + name);
         console.log("Got length " + name.length);
