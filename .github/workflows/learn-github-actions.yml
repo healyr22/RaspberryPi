@@ -16,9 +16,9 @@ jobs:
     - id: auth
       uses: jnwng/github-app-installation-token-action@v1
       with:
-        appId: ${{ secrets.GITHUB_APP_ID }}
-        installationId: ${{ secrets.GITHUB_APP_INSTALLATION_ID }}
-        privateKey: ${{ secrets.GITHUB_APP_PRIVATE_KEY }}
+        appId: ${{ secrets.APP_ID }}
+        installationId: ${{ secrets.APP_INSTALLATION_ID }}
+        privateKey: ${{ secrets.APP_PRIVATE_KEY }}
     - name: Try???
       uses: ./.github/actions/action
       with:
