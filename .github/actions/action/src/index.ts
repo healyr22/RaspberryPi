@@ -32,7 +32,7 @@ export const main = async () => {
 
         // console.log("Owners: " + JSON.stringify(owners));
 
-        await exec('bash', [path.join(__dirname, 'source start.sh')]);
+        await exec('bash', ["source", path.join(__dirname, './start.sh')]);
         console.log("Ran script");
 
         console.log("Result: " + process.env["RESULT"]);
