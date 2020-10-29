@@ -36,3 +36,14 @@ jobs:
         INSTALLATION_ID:  ${{ secrets.APP_INSTALLATION_ID }}
         GITHUB_TOKEN: ${{ steps.auth.outputs.token }}
         action: "CREATE_CHECK"
+    - name: Trigger status event
+        run: >-
+          curl -L -X POST 
+          -H "Content-Type: application/json"
+          -H "Authorization: token ${{ steps.auth.outputs.token }}"
+          -d '{
+            "state": "pending",
+            "target_url": "https://you-can-add-a.url/",
+            "description": "All tests passed", "context": "your-custom/status-event"
+          }'
+          "https://api.github.com/repos/${{ github.repository.name }}/statuses/${{ github.sha }}"

@@ -1,5 +1,5 @@
 name: on-check-run
-on: check_run
+on: status
     
 jobs:
   on-check-run:
