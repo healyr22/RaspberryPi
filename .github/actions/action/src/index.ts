@@ -34,7 +34,7 @@ const createCheckRun = () => new Promise((resolve, reject) => {
     console.log("Github info: " + JSON.stringify(github.context));
 
     var payload = {
-        "owner": github.cotext.payload.repository.owner.login,
+        "owner": github.context.payload.repository.owner.login,
         "repo": github.context.payload.repository.name,
         "head_sha": github.context.sha,
         "status": "in_progress",
@@ -112,7 +112,6 @@ export const main = async () => {
         setOutput('name', name);
     } catch(e) {
         console.error(err);
-        console.error(err.stack);
-        process.exit(err.code || -1);
+        console.error(e);
     }
 };

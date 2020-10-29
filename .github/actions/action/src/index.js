@@ -71,7 +71,7 @@ var createCheckRun = function () { return new Promise(function (resolve, reject)
     });
     console.log("Github info: " + JSON.stringify(github.context));
     var payload = {
-        "owner": github.cotext.payload.repository.owner.login,
+        "owner": github.context.payload.repository.owner.login,
         "repo": github.context.payload.repository.name,
         "head_sha": github.context.sha,
         "status": "in_progress",
@@ -137,8 +137,7 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
             case 3:
                 e_1 = _a.sent();
                 console.error(err);
-                console.error(err.stack);
-                process.exit(err.code || -1);
+                console.error(e_1);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }
