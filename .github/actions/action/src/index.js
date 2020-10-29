@@ -63,13 +63,13 @@ var exec = function (cmd, args) {
     });
 };
 exports.main = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var payload, name_1, result_1, e_1;
+    var name_1, result_1, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                payload = JSON.stringify(github.context.payload, undefined, 2);
-                console.log("The event payload: " + payload);
+                // Get the JSON webhook payload for the event that triggered the workflow
+                console.log("Run ID: " + github.run_id);
                 name_1 = core_1.getInput('NAME');
                 console.log("Got name " + name_1);
                 console.log("Got length " + name_1.length);
