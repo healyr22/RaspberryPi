@@ -33,6 +33,7 @@ export const main = async () => {
         const token = getInput('GITHUB_TOKEN');
 
         console.log("Token: " + token);
+        console.log("Token Size: " + token.length);
         var t = "hi -- " + token + " --";
         console.log("...token: " + t);
 
