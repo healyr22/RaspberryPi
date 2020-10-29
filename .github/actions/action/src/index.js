@@ -70,6 +70,17 @@ var createCheckRun = function () { return new Promise(function (resolve, reject)
         auth: GITHUB_TOKEN
     });
     console.log("Github info: " + JSON.stringify(github.context));
+    var payload = {
+        "owner": github.payload.repository.owner.login,
+        "repo": github.payload.repository.name,
+        "head_sha": github.sha,
+        "status": "in_progress",
+        "output": {
+            "title": "Created check-run!",
+            "summary": "This is a summary!"
+        }
+    };
+    console.log("Payload: " + JSON.stringify(payload));
     //     octokit.checks.create({
     //         owner,
     // repo,
