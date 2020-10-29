@@ -39,6 +39,7 @@ exports.__esModule = true;
 exports.main = void 0;
 var core_1 = require("@actions/core");
 // import { generateCommand } from 'codeowners-generator';
+var github = require('@actions/github');
 var spawn = require('child_process').spawn;
 var path = require("path");
 var err;
@@ -62,11 +63,13 @@ var exec = function (cmd, args) {
     });
 };
 exports.main = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var name_1, result_1, e_1;
+    var payload, name_1, result_1, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
+                payload = JSON.stringify(github.context.payload, undefined, 2);
+                console.log("The event payload: " + payload);
                 name_1 = core_1.getInput('NAME');
                 console.log("Got name " + name_1);
                 console.log("Got length " + name_1.length);
@@ -79,6 +82,7 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
                 }
                 else {
                     console.log("Need to run codeowners");
+                    // Create check run
                 }
                 core_1.setOutput('name', name_1);
                 return [3 /*break*/, 3];

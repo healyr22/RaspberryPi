@@ -1,6 +1,7 @@
 import { getInput, setOutput, setFailed } from '@actions/core';
 // import { generateCommand } from 'codeowners-generator';
 
+const github = require('@actions/github');
 const spawn = require('child_process').spawn;
 const path = require("path");
 var err;
@@ -23,6 +24,10 @@ const exec = (cmd, args=[]) => new Promise((resolve, reject) => {
 
 export const main = async () => {
     try {
+        // Get the JSON webhook payload for the event that triggered the workflow
+        const payload = JSON.stringify(github.context.payload, undefined, 2)
+        console.log(`The event payload: ${payload}`);
+        
         const name = getInput('NAME');
 
         console.log("Got name " + name);
@@ -41,7 +46,9 @@ export const main = async () => {
             console.log("CODEOWNERS ok!");
         } else {
             console.log("Need to run codeowners");
+            // Create check run
         }
+
 
         setOutput('name', name);
     } catch(e) {

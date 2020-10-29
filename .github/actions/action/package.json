@@ -16,6 +16,7 @@
   "author": "Rob Healy <robert.healy3@gmail.com>",
   "dependencies": {
     "@actions/core": "^1.2.6",
+    "@actions/github": "^4.0.0",
     "@types/node": "^13.13.30",
     "codeowners-generator": "^1.2.5"
   },
