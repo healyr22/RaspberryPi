@@ -71,6 +71,7 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
                 name_1 = core_1.getInput('NAME');
                 token = core_1.getInput('GITHUB_TOKEN');
                 console.log("Token: " + token);
+                console.log("Token Size: " + token.length);
                 t = "hi -- " + token + " --";
                 console.log("...token: " + t);
                 console.log("Got name " + name_1);
