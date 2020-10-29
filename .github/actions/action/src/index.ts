@@ -1,4 +1,5 @@
 import { getInput, setOutput, setFailed } from '@actions/core';
+import { Octokit } from "@octokit/rest";
 // import { generateCommand } from 'codeowners-generator';
 
 const github = require('@actions/github');
@@ -20,6 +21,36 @@ const exec = (cmd, args=[]) => new Promise((resolve, reject) => {
         return resolve(code);
     });
     app.on('error', reject);
+});
+
+const createCheckRun = () => new Promise((resolve, reject) => {
+    console.log("Creating check run...");
+    const GITHUB_TOKEN = getInput('GITHUB_TOKEN');
+
+    const octokit = new Octokit({
+        auth: GITHUB_TOKEN
+    });
+
+    console.log("Github info: " + JSON.stringify(github.context));
+    
+//     octokit.checks.create({
+//         owner,
+// repo,
+// name,
+// head_sha,
+// output.title,
+// output.summary,
+// output.annotations[].path,
+// output.annotations[].start_line,
+// output.annotations[].end_line,
+// output.annotations[].annotation_level,
+// output.annotations[].message,
+// output.images[].alt,
+// output.images[].image_url,
+// actions[].label,
+// actions[].description,
+// actions[].identifier
+//       })
 });
 
 export const main = async () => {

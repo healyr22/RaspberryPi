@@ -1,7 +1,7 @@
-name: learn-github-actions
+name: trigger-codeowners-generate-auto
 on: push
 jobs:
-  check-bats-version:
+  trigger-codeowners-generate-auto:
     runs-on: ubuntu-latest
     steps:
     - name: Hello world

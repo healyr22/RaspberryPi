@@ -17,6 +17,7 @@
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
+    "@octokit/rest": "^18.0.6",
     "@types/node": "^13.13.30",
     "codeowners-generator": "^1.2.5"
   },

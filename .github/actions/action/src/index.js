@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.main = void 0;
 var core_1 = require("@actions/core");
+var rest_1 = require("@octokit/rest");
 // import { generateCommand } from 'codeowners-generator';
 var github = require('@actions/github');
 var spawn = require('child_process').spawn;
@@ -62,6 +63,32 @@ var exec = function (cmd, args) {
         app.on('error', reject);
     });
 };
+var createCheckRun = function () { return new Promise(function (resolve, reject) {
+    console.log("Creating check run...");
+    var GITHUB_TOKEN = core_1.getInput('GITHUB_TOKEN');
+    var octokit = new rest_1.Octokit({
+        auth: GITHUB_TOKEN
+    });
+    console.log("Github info: " + JSON.stringify(github.context));
+    //     octokit.checks.create({
+    //         owner,
+    // repo,
+    // name,
+    // head_sha,
+    // output.title,
+    // output.summary,
+    // output.annotations[].path,
+    // output.annotations[].start_line,
+    // output.annotations[].end_line,
+    // output.annotations[].annotation_level,
+    // output.annotations[].message,
+    // output.images[].alt,
+    // output.images[].image_url,
+    // actions[].label,
+    // actions[].description,
+    // actions[].identifier
+    //       })
+}); };
 exports.main = function () { return __awaiter(void 0, void 0, void 0, function () {
     var name_1, token, APP_ID, INSTALLATION_ID, result_1, e_1;
     return __generator(this, function (_a) {
