@@ -1,8 +1,8 @@
 name: check-run-created-test
 on:
-  check_run:#
+  check_run:
     types: [created]
-    
+    #
 jobs:
   check-run-test:
     runs-on: ubuntu-latest
