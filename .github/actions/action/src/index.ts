@@ -35,17 +35,25 @@ const createCheckRun = async () => {
         auth: GITHUB_TOKEN
     });
 
-const status : statusType = "in_progress"
+const status : statusType = "completed"
+const conclusion : conclusionType = "failure"
 
     var payload = {
         "name": "Created!!",
         "owner": github.context.payload.repository.owner.login,
         "repo": github.context.payload.repository.name,
         "head_sha": github.context.sha,
+        "status": status,
+        "conclusion": conclusion,
         "output": {
             "title": "Created check-run!",
             "summary": "This is a summary!"
-        }
+        },
+        "actions": [{
+            "label": "Button text",
+            "description": "Some description",
+            "identifier": "robs-action"
+            }]
     };
 
     console.log("Payload: " + JSON.stringify(payload));
@@ -130,7 +138,7 @@ export const main = async () => {
 
         // console.log("Owners: " + JSON.stringify(owners));
 
-        const result = await exec('bash', [path.join(__dirname, './start.sh')]);
+        // const result = await exec('bash', [path.join(__dirname, './start.sh')]);
         console.log("Ran script");
 
         if(result === 0) {

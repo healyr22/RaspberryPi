@@ -1,5 +1,5 @@
 name: codeowners-generate-auto-check
-on: push
+on: [push, check_run]
     
 jobs:
   trigger-codeowners-generate-auto:
@@ -30,6 +30,7 @@ jobs:
         privateKey: ${{ secrets.APP_PRIVATE_KEY }}
     - name: Try???
       uses: ./.github/actions/action
+      if: github.event_name == 'push'
       with:
         name: ${{ secrets.NAME }}
         APP_ID: ${{ secrets.APP_ID }}
