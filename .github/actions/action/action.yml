@@ -11,7 +11,7 @@ inputs:
     description: "A Name"
     required: true
 outputs:
-  name: # some name
+  isValid: # some name
     description: "Some name"
 runs:
   using: "node12"
