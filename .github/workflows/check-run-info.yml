@@ -9,7 +9,7 @@ jobs:
     steps:
     - name: Show Information
       run: |
-        echo "This workflow run is triggered by ${{ github.event_name }} .!?!?!?"
+        echo "This workflow run is triggered by ${{ github.event_name }} "
         echo " *****************************************************************************"
         echo "$GITHUB_CONTEXT"
         echo " *****************************************************************************"
