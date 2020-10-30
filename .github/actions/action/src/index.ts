@@ -100,7 +100,7 @@ export const main = async () => {
 
 
     try {
-        createCheckRun();
+        // createCheckRun();
         // Get the JSON webhook payload for the event that triggered the workflow
         // console.log("Run ID: " + github.run_id);
         // const payload = JSON.stringify(github.context.payload, undefined, 2)
