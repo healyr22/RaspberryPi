@@ -11,6 +11,8 @@ inputs:
     description: "A Name"
     required: true
 outputs:
+  name: # some name
+    description: "Some name"
   isValid: # some name
     description: "Some name"
 runs:

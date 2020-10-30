@@ -157,6 +157,7 @@ export const main = async () => {
 
 
         setOutput('isValid', result.isClean);
+        setOutput('name', "Rob!");
     } catch(e) {
         console.error(err);
         console.error(e);

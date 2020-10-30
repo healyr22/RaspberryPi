@@ -137,7 +137,7 @@ var success = function () { return __awaiter(void 0, void 0, void 0, function ()
     });
 }); };
 exports.main = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var action, name_1, token, APP_ID, INSTALLATION_ID, r, e_1;
+    var action, name_1, token, APP_ID, INSTALLATION_ID, result_1, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -178,17 +178,17 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
                 _a.sent();
                 return [4 /*yield*/, git.status()];
             case 3:
-                r = _a.sent();
-                console.log(r.isClean());
+                result_1 = _a.sent();
                 console.log("Ran script");
-                if (result === 0) {
+                if (result_1.isClean()) {
                     console.log("CODEOWNERS ok!");
                 }
                 else {
                     console.log("Need to run codeowners");
                     // Create check run
                 }
-                core_1.setOutput('name', name_1);
+                core_1.setOutput('isValid', result_1.isClean);
+                core_1.setOutput('name', "Rob!");
                 return [3 /*break*/, 5];
             case 4:
                 e_1 = _a.sent();
