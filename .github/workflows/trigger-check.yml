@@ -37,7 +37,8 @@ jobs:
         INSTALLATION_ID:  ${{ secrets.APP_INSTALLATION_ID }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} #${{ steps.auth.outputs.token }}
         action: "CREATE_CHECK"
-    - name: codeowners_check
+    - id: codeowners_check
+      name: codeowners_check
       uses: ./.github/actions/action
       if: github.event_name == 'push'
       with:
