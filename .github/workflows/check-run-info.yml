@@ -1,7 +1,5 @@
 name: check-run-test
-on:
-  check_run:
-    types: [rerequested, requested_action]
+on: check_run
     
 jobs:
   check-run-test:
