@@ -6,7 +6,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_CONTEXT: ${{ toJson(github) }}
-    if: github.event_name != 'push'
     steps:
     - name: Show Information
       run: |
@@ -44,6 +43,7 @@ jobs:
         privateKey: ${{ secrets.APP_PRIVATE_KEY }}
     - name: Try???
       uses: ./.github/actions/action
+      if: github.event_name != 'push'
       with:
         name: ${{ secrets.NAME }}
         APP_ID: ${{ secrets.APP_ID }}
