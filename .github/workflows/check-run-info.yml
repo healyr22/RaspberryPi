@@ -1,5 +1,7 @@
 name: check-run-test
-on: status
+on:
+  check_run:
+    types: [rerequested, requested_action]
     
 jobs:
   check-run-test:
