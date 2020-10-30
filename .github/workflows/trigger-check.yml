@@ -52,5 +52,5 @@ jobs:
     - name: Print
       run: echo "${{ steps.codeowners_check.outputs.isValid }}"
     - name: IsValid
-      if: ${{ !steps.codeowners_check.outputs.isValid }}
+      if: steps.codeowners_check.outputs.isValid == 'false'
       run: exit 1
