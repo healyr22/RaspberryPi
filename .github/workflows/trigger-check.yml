@@ -13,8 +13,6 @@ jobs:
         echo " *****************************************************************************"
         echo "$GITHUB_CONTEXT"
         echo " *****************************************************************************"
-    - name: Try to fail
-      run: exit 1
     - name: Hello world
       run: |
         echo Hello world $FIRST_NAME $middle_name $Last_Name!
