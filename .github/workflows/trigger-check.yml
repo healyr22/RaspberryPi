@@ -17,7 +17,7 @@ jobs:
       run: |
         echo "https://api.github.com/repos/${{ github.repository_owner }}/${{ github.repository }}/statuses/${{ github.sha }}"
         curl --request POST \
-        --url https://api.github.com/repos/${{ github.repository.owner.name }}/${{ github.repository.name }}/statuses/${{ github.sha }} \
+        --url https://api.github.com/repos/${{ github.repository_owner }}/${{ github.repository }}/statuses/${{ github.sha }} \
         --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
         --header 'content-type: application/json' \
         --header 'Accept: application/vnd.github.v3+json' \
