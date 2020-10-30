@@ -27,6 +27,7 @@ jobs:
       with:
         appId: ${{ secrets.APP_ID }}
         installationId: ${{ secrets.APP_INSTALLATION_ID }}
+        privateKey: ${{ secrets.APP_PRIVATE_KEY }}
     - id: codeowners_check
       name: codeowners_check
       uses: ./.github/actions/action
