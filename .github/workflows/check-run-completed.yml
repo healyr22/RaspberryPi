@@ -1,6 +1,7 @@
-name: check-run-test
-on: check_run
-#
+name: check-run-completed-test
+on:
+  check_run:
+    types: [completed]
     
 jobs:
   check-run-test:
