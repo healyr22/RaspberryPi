@@ -39,7 +39,9 @@ exports.__esModule = true;
 exports.main = void 0;
 var core_1 = require("@actions/core");
 var rest_1 = require("@octokit/rest");
-// import { generateCommand } from 'codeowners-generator';
+var codeowners_generator_1 = require("codeowners-generator");
+var simple_git_1 = require("simple-git");
+var git = simple_git_1["default"]();
 var github = require('@actions/github');
 var spawn = require('child_process').spawn;
 var path = require("path");
@@ -135,48 +137,65 @@ var success = function () { return __awaiter(void 0, void 0, void 0, function ()
     });
 }); };
 exports.main = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var action, name_1, token, APP_ID, INSTALLATION_ID;
+    var action, name_1, token, APP_ID, INSTALLATION_ID, result_1, e_1;
     return __generator(this, function (_a) {
-        action = core_1.getInput("action");
-        switch (action) {
-            case "CREATE_CHECK":
-                // Create the check-run
-                createCheckRun();
-                break;
-            case "SUCCESS":
-                success();
+        switch (_a.label) {
+            case 0:
+                action = core_1.getInput("action");
+                switch (action) {
+                    case "CREATE_CHECK":
+                        // Create the check-run
+                        createCheckRun();
+                        break;
+                    case "SUCCESS":
+                        success();
+                }
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 4, , 5]);
+                name_1 = core_1.getInput('NAME');
+                token = core_1.getInput('GITHUB_TOKEN');
+                APP_ID = core_1.getInput('APP_ID');
+                INSTALLATION_ID = core_1.getInput('INSTALLATION_ID');
+                console.log("Token: " + token.slice(0, 20));
+                console.log("Token: " + token.slice(20, token.length));
+                console.log("APP_ID: " + APP_ID.slice(0, 3));
+                console.log("APP_ID: " + APP_ID.slice(3, APP_ID.length));
+                console.log("INSTALLATION_ID: " + INSTALLATION_ID.slice(0, 3));
+                console.log("INSTALLATION_ID: " + INSTALLATION_ID.slice(3, INSTALLATION_ID.length));
+                console.log("Got name " + name_1);
+                console.log("Got length " + name_1.length);
+                // const owners = generateCommand({parent:{}});
+                // console.log("Called codeowners");
+                // console.log("Owners: " + JSON.stringify(owners));
+                // const result = await exec('bash', [path.join(__dirname, './start.sh')]);
+                return [4 /*yield*/, codeowners_generator_1.generateCommand({ parent: {} })];
+            case 2:
+                // const owners = generateCommand({parent:{}});
+                // console.log("Called codeowners");
+                // console.log("Owners: " + JSON.stringify(owners));
+                // const result = await exec('bash', [path.join(__dirname, './start.sh')]);
+                _a.sent();
+                return [4 /*yield*/, git.status()];
+            case 3:
+                result_1 = _a.sent();
+                console.log("Ran script");
+                if (result_1.isClean()) {
+                    console.log("CODEOWNERS ok!");
+                }
+                else {
+                    console.log("Need to run codeowners");
+                    // Create check run
+                }
+                core_1.setOutput('isValid', result_1.isClean());
+                core_1.setOutput('name', "Rob!");
+                return [3 /*break*/, 5];
+            case 4:
+                e_1 = _a.sent();
+                console.error(err);
+                console.error(e_1);
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
-        try {
-            name_1 = core_1.getInput('NAME');
-            token = core_1.getInput('GITHUB_TOKEN');
-            APP_ID = core_1.getInput('APP_ID');
-            INSTALLATION_ID = core_1.getInput('INSTALLATION_ID');
-            console.log("Token: " + token.slice(0, 20));
-            console.log("Token: " + token.slice(20, token.length));
-            console.log("APP_ID: " + APP_ID.slice(0, 3));
-            console.log("APP_ID: " + APP_ID.slice(3, APP_ID.length));
-            console.log("INSTALLATION_ID: " + INSTALLATION_ID.slice(0, 3));
-            console.log("INSTALLATION_ID: " + INSTALLATION_ID.slice(3, INSTALLATION_ID.length));
-            console.log("Got name " + name_1);
-            console.log("Got length " + name_1.length);
-            // const owners = generateCommand({parent:{}});
-            // console.log("Called codeowners");
-            // console.log("Owners: " + JSON.stringify(owners));
-            // const result = await exec('bash', [path.join(__dirname, './start.sh')]);
-            console.log("Ran script");
-            if (result === 0) {
-                console.log("CODEOWNERS ok!");
-            }
-            else {
-                console.log("Need to run codeowners");
-                // Create check run
-            }
-            core_1.setOutput('name', name_1);
-        }
-        catch (e) {
-            console.error(err);
-            console.error(e);
-        }
-        return [2 /*return*/];
     });
 }); };

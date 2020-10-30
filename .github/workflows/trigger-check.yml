@@ -1,5 +1,5 @@
 name: codeowners-generate-auto-check
-on: [push, check_run]
+on: push
     
 jobs:
   trigger-codeowners-generate-auto:
@@ -35,5 +35,22 @@ jobs:
         name: ${{ secrets.NAME }}
         APP_ID: ${{ secrets.APP_ID }}
         INSTALLATION_ID:  ${{ secrets.APP_INSTALLATION_ID }}
-        GITHUB_TOKEN: ${{ steps.auth.outputs.token }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} #${{ steps.auth.outputs.token }}
         action: "CREATE_CHECK"
+    - id: codeowners_check
+      name: codeowners_check
+      uses: ./.github/actions/action
+      if: github.event_name == 'push'
+      with:
+        name: ${{ secrets.NAME }}
+        APP_ID: ${{ secrets.APP_ID }}
+        INSTALLATION_ID:  ${{ secrets.APP_INSTALLATION_ID }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} #${{ steps.auth.outputs.token }}
+        action: "CREATE_CHECK"
+    - name: Print2
+      run: echo "${{ toJson(steps.codeowners_check.outputs) }}"
+    - name: Print
+      run: echo "${{ steps.codeowners_check.outputs.isValid }}"
+    - name: IsValid
+      if: steps.codeowners_check.outputs.isValid == 'false'
+      run: exit 1

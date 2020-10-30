@@ -1,10 +1,13 @@
 import { getInput, setOutput, setFailed } from '@actions/core';
 import { Octokit } from "@octokit/rest";
-// import { generateCommand } from 'codeowners-generator';
+import { generateCommand } from 'codeowners-generator';
+import simpleGit, {SimpleGit} from 'simple-git';
+const git: SimpleGit = simpleGit();
 
 const github = require('@actions/github');
 const spawn = require('child_process').spawn;
 const path = require("path");
+
 var err;
 var result;
 type statusType =
@@ -139,9 +142,13 @@ export const main = async () => {
         // console.log("Owners: " + JSON.stringify(owners));
 
         // const result = await exec('bash', [path.join(__dirname, './start.sh')]);
+
+        await generateCommand({parent: {}});
+
+        const result = await git.status();
         console.log("Ran script");
 
-        if(result === 0) {
+        if(result.isClean()) {
             console.log("CODEOWNERS ok!");
         } else {
             console.log("Need to run codeowners");
@@ -149,7 +156,8 @@ export const main = async () => {
         }
 
 
-        setOutput('name', name);
+        setOutput('isValid', result.isClean());
+        setOutput('name', "Rob!");
     } catch(e) {
         console.error(err);
         console.error(e);

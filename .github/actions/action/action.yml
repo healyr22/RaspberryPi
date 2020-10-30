@@ -13,6 +13,8 @@ inputs:
 outputs:
   name: # some name
     description: "Some name"
+  isValid: # some name
+    description: "Some name"
 runs:
   using: "node12"
   main: "index.js"
