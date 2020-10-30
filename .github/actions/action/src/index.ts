@@ -100,7 +100,7 @@ export const main = async () => {
 
 
     try {
-        createCheckRun();
+        // createCheckRun();
         // Get the JSON webhook payload for the event that triggered the workflow
         // console.log("Run ID: " + github.run_id);
         // const payload = JSON.stringify(github.context.payload, undefined, 2)
@@ -146,4 +146,46 @@ export const main = async () => {
         console.error(err);
         console.error(e);
     }
+
+    // console.log("Here!");
+
+    // const runs = (await getRuns()).data.workflow_runs;
+    //     // console.log("Got " + JSON.stringify(runs));
+
+    // for(var i = 0; i < 50; i++) {
+    //     var run = runs[i];
+
+    //     console.log("Checking " + run.id);
+    //     console.log(JSON.stringify(run));
+    //     if(run.status === "queued") {
+    //         console.log("Cancelling " + run.id);
+    //         await cancelRun(run.id);
+    //     }
+    // }
 };
+
+const getRuns = async () => {
+
+    const octokit = new Octokit({
+        auth: "bf603ed033905405f9d0372d0975c52ae3831abf"
+    });
+
+    return await octokit.actions.listWorkflowRunsForRepo({
+        "owner": "healyr22",
+        "repo": "RaspberryPi",
+        "per_page": 100
+    });
+}
+
+const cancelRun = async (id) => {
+
+    const octokit = new Octokit({
+        auth: "bf603ed033905405f9d0372d0975c52ae3831abf"
+    });
+
+    return await octokit.actions.cancelWorkflowRun({
+        "owner": "healyr22",
+        "repo": "RaspberryPi",
+        "run_id": id
+    });
+}

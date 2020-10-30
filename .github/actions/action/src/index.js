@@ -143,7 +143,6 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                createCheckRun();
                 name_1 = core_1.getInput('NAME');
                 token = core_1.getInput('GITHUB_TOKEN');
                 APP_ID = core_1.getInput('APP_ID');
@@ -175,6 +174,40 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
                 console.error(e_1);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
+        }
+    });
+}); };
+var getRuns = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var octokit;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                octokit = new rest_1.Octokit({
+                    auth: "bf603ed033905405f9d0372d0975c52ae3831abf"
+                });
+                return [4 /*yield*/, octokit.actions.listWorkflowRunsForRepo({
+                        "owner": "healyr22",
+                        "repo": "RaspberryPi",
+                        "per_page": 100
+                    })];
+            case 1: return [2 /*return*/, _a.sent()];
+        }
+    });
+}); };
+var cancelRun = function (id) { return __awaiter(void 0, void 0, void 0, function () {
+    var octokit;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                octokit = new rest_1.Octokit({
+                    auth: "bf603ed033905405f9d0372d0975c52ae3831abf"
+                });
+                return [4 /*yield*/, octokit.actions.cancelWorkflowRun({
+                        "owner": "healyr22",
+                        "repo": "RaspberryPi",
+                        "run_id": id
+                    })];
+            case 1: return [2 /*return*/, _a.sent()];
         }
     });
 }); };
