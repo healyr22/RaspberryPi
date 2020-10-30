@@ -1,7 +1,11 @@
 name: check-run-test
 on:
-  check_run:
-    types: [rerequested, requested_action]
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Person to greet'
+        required: true
+        default: 'Mona the Octocat'
     
 jobs:
   check-run-test:
