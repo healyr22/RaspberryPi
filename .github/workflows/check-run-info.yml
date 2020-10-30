@@ -1,5 +1,5 @@
 name: check-run-test
-on: check_run
+on: [check_run, check_suite]
     
 jobs:
   check-run-test:
