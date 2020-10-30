@@ -48,5 +48,5 @@ jobs:
         name: ${{ secrets.NAME }}
         APP_ID: ${{ secrets.APP_ID }}
         INSTALLATION_ID:  ${{ secrets.APP_INSTALLATION_ID }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} #${{ steps.auth.outputs.token }}
+        GITHUB_TOKEN: ${{ steps.auth.outputs.token }}
         action: "CREATE_CHECK"
