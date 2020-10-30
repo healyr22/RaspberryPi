@@ -47,5 +47,5 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} #${{ steps.auth.outputs.token }}
         action: "CREATE_CHECK"
     - name: IsValid
-      if: ${{ steps.codeowners_check.outputs.isValid }}
+      if: ${{ !steps.codeowners_check.outputs.isValid }}
       run: exit 1
