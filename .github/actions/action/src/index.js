@@ -135,53 +135,48 @@ var success = function () { return __awaiter(void 0, void 0, void 0, function ()
     });
 }); };
 exports.main = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var action, name_1, token, APP_ID, INSTALLATION_ID, result_1, e_1;
+    var action, name_1, token, APP_ID, INSTALLATION_ID;
     return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                action = core_1.getInput("action");
-                switch (action) {
-                    case "CREATE_CHECK":
-                        // Create the check-run
-                        createCheckRun();
-                        break;
-                    case "SUCCESS":
-                        success();
-                }
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
-                name_1 = core_1.getInput('NAME');
-                token = core_1.getInput('GITHUB_TOKEN');
-                APP_ID = core_1.getInput('APP_ID');
-                INSTALLATION_ID = core_1.getInput('INSTALLATION_ID');
-                console.log("Token: " + token.slice(0, 20));
-                console.log("Token: " + token.slice(20, token.length));
-                console.log("APP_ID: " + APP_ID.slice(0, 3));
-                console.log("APP_ID: " + APP_ID.slice(3, APP_ID.length));
-                console.log("INSTALLATION_ID: " + INSTALLATION_ID.slice(0, 3));
-                console.log("INSTALLATION_ID: " + INSTALLATION_ID.slice(3, INSTALLATION_ID.length));
-                console.log("Got name " + name_1);
-                console.log("Got length " + name_1.length);
-                return [4 /*yield*/, exec('bash', [path.join(__dirname, './start.sh')])];
-            case 2:
-                result_1 = _a.sent();
-                console.log("Ran script");
-                if (result_1 === 0) {
-                    console.log("CODEOWNERS ok!");
-                }
-                else {
-                    console.log("Need to run codeowners");
-                    // Create check run
-                }
-                core_1.setOutput('name', name_1);
-                return [3 /*break*/, 4];
-            case 3:
-                e_1 = _a.sent();
-                console.error(err);
-                console.error(e_1);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+        action = core_1.getInput("action");
+        switch (action) {
+            case "CREATE_CHECK":
+                // Create the check-run
+                createCheckRun();
+                break;
+            case "SUCCESS":
+                success();
         }
+        try {
+            name_1 = core_1.getInput('NAME');
+            token = core_1.getInput('GITHUB_TOKEN');
+            APP_ID = core_1.getInput('APP_ID');
+            INSTALLATION_ID = core_1.getInput('INSTALLATION_ID');
+            console.log("Token: " + token.slice(0, 20));
+            console.log("Token: " + token.slice(20, token.length));
+            console.log("APP_ID: " + APP_ID.slice(0, 3));
+            console.log("APP_ID: " + APP_ID.slice(3, APP_ID.length));
+            console.log("INSTALLATION_ID: " + INSTALLATION_ID.slice(0, 3));
+            console.log("INSTALLATION_ID: " + INSTALLATION_ID.slice(3, INSTALLATION_ID.length));
+            console.log("Got name " + name_1);
+            console.log("Got length " + name_1.length);
+            // const owners = generateCommand({parent:{}});
+            // console.log("Called codeowners");
+            // console.log("Owners: " + JSON.stringify(owners));
+            // const result = await exec('bash', [path.join(__dirname, './start.sh')]);
+            console.log("Ran script");
+            if (result === 0) {
+                console.log("CODEOWNERS ok!");
+            }
+            else {
+                console.log("Need to run codeowners");
+                // Create check run
+            }
+            core_1.setOutput('name', name_1);
+        }
+        catch (e) {
+            console.error(err);
+            console.error(e);
+        }
+        return [2 /*return*/];
     });
 }); };

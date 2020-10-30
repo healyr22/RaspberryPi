@@ -34,7 +34,7 @@ jobs:
         FIRST_NAME: Mona
         middle_name: The
         Last_Name: Octocat
-    - uses: actions/checkout@v1
+    # - uses: actions/checkout@v1
     - id: auth
       uses: jnwng/github-app-installation-token-action@v1
       with:

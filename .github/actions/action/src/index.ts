@@ -138,7 +138,7 @@ export const main = async () => {
 
         // console.log("Owners: " + JSON.stringify(owners));
 
-        const result = await exec('bash', [path.join(__dirname, './start.sh')]);
+        // const result = await exec('bash', [path.join(__dirname, './start.sh')]);
         console.log("Ran script");
 
         if(result === 0) {
