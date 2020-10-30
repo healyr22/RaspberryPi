@@ -1,6 +1,6 @@
 name: codeowners-generate-auto-check
 on: push
-    
+    #
 jobs:
   trigger-codeowners-generate-auto:
     runs-on: ubuntu-latest
