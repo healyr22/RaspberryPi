@@ -156,7 +156,7 @@ export const main = async () => {
         }
 
 
-        setOutput('isValid', esult.isClean());
+        setOutput('isValid', result.isClean);
     } catch(e) {
         console.error(err);
         console.error(e);
