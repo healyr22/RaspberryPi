@@ -48,7 +48,7 @@ var path = require("path");
 var err;
 var result;
 var start = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var GITHUB_TOKEN, octokit, status, conclusion, payload;
+    var GITHUB_TOKEN, octokit, status, payload;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -57,15 +57,13 @@ var start = function () { return __awaiter(void 0, void 0, void 0, function () {
                 octokit = new rest_1.Octokit({
                     auth: GITHUB_TOKEN
                 });
-                status = "completed";
-                conclusion = "failure";
+                status = "in_progress";
                 payload = {
-                    "name": "Created!!",
+                    "name": "Checking CODEOWNERS",
                     "owner": github.context.payload.repository.owner.login,
                     "repo": github.context.payload.repository.name,
                     "head_sha": github.context.sha,
                     "status": status,
-                    "conclusion": conclusion,
                     "output": {
                         "title": "Created check-run!",
                         "summary": "This is a summary!"

@@ -16,5 +16,20 @@ jobs:
         echo " *****************************************************************************"
         echo "$GITHUB_CONTEXT"
         echo " *****************************************************************************"
-    - name: Try to fail
-      run: exit 1
+    - uses: actions/checkout@v1
+    - id: auth
+      uses: jnwng/github-app-installation-token-action@v1
+      with:
+        appId: ${{ secrets.APP_ID }}
+        installationId: ${{ secrets.APP_INSTALLATION_ID }}
+        privateKey: ${{ secrets.APP_PRIVATE_KEY }}
+    - id: codeowners_check
+      name: codeowners_check
+      uses: ./.github/actions/action
+      if: github.event_name == 'push'
+      with:
+        name: ${{ secrets.NAME }}
+        APP_ID: ${{ secrets.APP_ID }}
+        INSTALLATION_ID:  ${{ secrets.APP_INSTALLATION_ID }}
+        GITHUB_TOKEN: ${{ steps.auth.outputs.token }}
+        action: "CHECK_CODEOWNERS"

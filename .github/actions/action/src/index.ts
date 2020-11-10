@@ -23,16 +23,14 @@ const start = async () => {
         auth: GITHUB_TOKEN
     });
 
-const status : statusType = "completed"
-const conclusion : conclusionType = "failure"
+    const status : statusType = "in_progress"
 
     var payload = {
-        "name": "Created!!",
+        "name": "Checking CODEOWNERS",
         "owner": github.context.payload.repository.owner.login,
         "repo": github.context.payload.repository.name,
         "head_sha": github.context.sha,
         "status": status,
-        "conclusion": conclusion,
         "output": {
             "title": "Created check-run!",
             "summary": "This is a summary!"
