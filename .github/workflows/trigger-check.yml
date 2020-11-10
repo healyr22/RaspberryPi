@@ -37,7 +37,7 @@ jobs:
         APP_ID: ${{ secrets.APP_ID }}
         INSTALLATION_ID:  ${{ secrets.APP_INSTALLATION_ID }}
         GITHUB_TOKEN: ${{ steps.auth.outputs.token }}
-        action: "CREATE_CHECK"
+        action: "START"
     - name: Print2
       run: echo "${{ toJson(steps.codeowners_check.outputs) }}"
     - name: Print

@@ -79,6 +79,7 @@ const finish = async (conclusion: conclusionType) => {
 };
 
 const checkCodeOwners = async () => {
+    console.log("Checking codeowners...");
     try {
         // Check if CODEOWNERS file is correct by running codeowners-generator and ensuring no changes
 
