@@ -15,21 +15,6 @@ type statusType =
 type conclusionType =
 | "success" | "failure";
 
-const exec = (cmd, args=[]) => new Promise((resolve, reject) => {
-    console.log(`Started: ${cmd} ${args.join(" ")}`)
-    const app = spawn(cmd, args, { stdio: 'inherit' });
-    app.on('close', code => {
-        if(code !== 0 && code !== 1){
-            err = new Error(`Invalid status code: ${code}`);
-            err.code = code;
-            return reject(err);
-        };
-        result = code;
-        return resolve(code);
-    });
-    app.on('error', reject);
-});
-
 const createCheckRun = async () => {
     console.log("Creating check run...");
     const GITHUB_TOKEN = getInput('GITHUB_TOKEN');
@@ -78,7 +63,7 @@ const success = async () => {
     const conclusion : conclusionType = "success"
 
     var payload = {
-        "name": "Created!!",
+        "name": "Success name?",
         "owner": github.context.payload.repository.owner.login,
         "repo": github.context.payload.repository.name,
         "check_run_id": github.context.payload.check_run.id,
@@ -97,20 +82,9 @@ const success = async () => {
 };
 
 export const main = async () => {
-    const action = getInput("action");
-
-    switch(action) {
-        case "CREATE_CHECK":
-            // Create the check-run
-            createCheckRun();
-            break;
-        case "SUCCESS":
-            success();
-    }
-
-
-
     try {
+        // Check if CODEOWNERS file is correct by running codeowners-generator and ensuring no changes
+
         // createCheckRun();
         // Get the JSON webhook payload for the event that triggered the workflow
         // console.log("Run ID: " + github.run_id);
@@ -150,9 +124,11 @@ export const main = async () => {
 
         if(result.isClean()) {
             console.log("CODEOWNERS ok!");
+            await success();
         } else {
             console.log("Need to run codeowners");
             // Create check run
+            await createCheckRun();
         }
 
 
