@@ -43,23 +43,19 @@ var codeowners_generator_1 = require("codeowners-generator");
 var simple_git_1 = require("simple-git");
 var git = simple_git_1["default"]();
 var github = require('@actions/github');
-var spawn = require('child_process').spawn;
-var path = require("path");
-var err;
-var result;
 var start = function () { return __awaiter(void 0, void 0, void 0, function () {
     var GITHUB_TOKEN, octokit, status, payload;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 console.log("Creating check run...");
-                GITHUB_TOKEN = core_1.getInput('GITHUB_TOKEN');
+                GITHUB_TOKEN = core_1.getInput('githubToken');
                 octokit = new rest_1.Octokit({
                     auth: GITHUB_TOKEN
                 });
                 status = "in_progress";
                 payload = {
-                    "name": "Checking CODEOWNERS",
+                    "name": "CODEOWNERS Check",
                     "owner": github.context.payload.repository.owner.login,
                     "repo": github.context.payload.repository.name,
                     "head_sha": github.context.sha,
@@ -83,7 +79,7 @@ var finish = function (conclusion) { return __awaiter(void 0, void 0, void 0, fu
         switch (_a.label) {
             case 0:
                 console.log("Marking check run successful...");
-                GITHUB_TOKEN = core_1.getInput('GITHUB_TOKEN');
+                GITHUB_TOKEN = core_1.getInput('githubToken');
                 octokit = new rest_1.Octokit({
                     auth: GITHUB_TOKEN
                 });
@@ -126,7 +122,7 @@ var finish = function (conclusion) { return __awaiter(void 0, void 0, void 0, fu
     });
 }); };
 var checkCodeOwners = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var name_1, token, APP_ID, INSTALLATION_ID, owners, result_1, e_1;
+    var result, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -134,46 +130,30 @@ var checkCodeOwners = function () { return __awaiter(void 0, void 0, void 0, fun
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 8, , 9]);
-                name_1 = core_1.getInput('NAME');
-                token = core_1.getInput('GITHUB_TOKEN');
-                APP_ID = core_1.getInput('APP_ID');
-                INSTALLATION_ID = core_1.getInput('INSTALLATION_ID');
-                console.log("Token: " + token.slice(0, 20));
-                console.log("Token: " + token.slice(20, token.length));
-                console.log("APP_ID: " + APP_ID.slice(0, 3));
-                console.log("APP_ID: " + APP_ID.slice(3, APP_ID.length));
-                console.log("INSTALLATION_ID: " + INSTALLATION_ID.slice(0, 3));
-                console.log("INSTALLATION_ID: " + INSTALLATION_ID.slice(3, INSTALLATION_ID.length));
-                console.log("Got name " + name_1);
-                console.log("Got length " + name_1.length);
+                // Check if CODEOWNERS file is correct by running codeowners-generator and ensuring no changes
                 return [4 /*yield*/, codeowners_generator_1.generateCommand({ parent: {} })];
             case 2:
-                owners = _a.sent();
-                console.log("Called codeowners");
-                console.log("Owners: " + JSON.stringify(owners));
+                // Check if CODEOWNERS file is correct by running codeowners-generator and ensuring no changes
+                _a.sent();
+                console.log("Called codeowners - check if any change");
                 return [4 /*yield*/, git.status()];
             case 3:
-                result_1 = _a.sent();
-                console.log("Ran script");
-                if (!result_1.isClean()) return [3 /*break*/, 5];
+                result = _a.sent();
+                if (!result.isClean()) return [3 /*break*/, 5];
                 console.log("CODEOWNERS ok!");
                 return [4 /*yield*/, finish("success")];
             case 4:
                 _a.sent();
                 return [3 /*break*/, 7];
             case 5:
-                console.log("Need to run codeowners");
+                console.log("Need to fix codeowners");
                 return [4 /*yield*/, finish("failure")];
             case 6:
                 _a.sent();
                 _a.label = 7;
-            case 7:
-                core_1.setOutput('isValid', result_1.isClean());
-                core_1.setOutput('name', "Rob!");
-                return [3 /*break*/, 9];
+            case 7: return [3 /*break*/, 9];
             case 8:
                 e_1 = _a.sent();
-                console.error(err);
                 console.error(e_1);
                 return [3 /*break*/, 9];
             case 9: return [2 /*return*/];

@@ -2,7 +2,8 @@ name: check-run-created-test
 on:
   check_run:
     types: [created]
-    #
+
+# TODO verify it is the expected check-run, since this event is probably triggered for all check-runs
 jobs:
   check-run-test:
     runs-on: ubuntu-latest
@@ -12,37 +13,13 @@ jobs:
     steps:
     - name: Show Information
       run: |
-        echo "Name is ${{ github.event.inputs.name }} "
         echo "This workflow run is triggered by ${{ github.event_name }} "
         echo " *****************************************************************************"
         echo "$GITHUB_CONTEXT"
         echo " *****************************************************************************"
-        echo "${{ github.event.check_run.head_sha }}"
-    - name: Check path
-      run: |
-        echo "List files:"
-        ls -l
     - uses: actions/checkout@v2
       with:
         ref: "${{ github.event.check_run.head_sha }}"
-    - name: Check path
-      run: |
-        echo "Git status:"
-        git status --porcelain
-        echo "List files:"
-        ls -l
-        echo "Creating file"
-        touch temp.txt
-        echo "Git status:"
-        git status --porcelain
-        echo "List files:"
-        ls -l
-        echo "Deleting file"
-        rm temp.txt
-        echo "Git status:"
-        git status --porcelain
-        echo "List files:"
-        ls -l
     - id: auth
       uses: jnwng/github-app-installation-token-action@v1
       with:
@@ -53,26 +30,5 @@ jobs:
       name: codeowners_check
       uses: ./.github/actions/action
       with:
-        name: ${{ secrets.NAME }}
-        APP_ID: ${{ secrets.APP_ID }}
-        INSTALLATION_ID:  ${{ secrets.APP_INSTALLATION_ID }}
-        GITHUB_TOKEN: ${{ steps.auth.outputs.token }}
+        githubToken: ${{ steps.auth.outputs.token }}
         action: "CHECK_CODEOWNERS"
-    - name: Check path
-      run: |
-        echo "Git status:"
-        git status --porcelain
-        echo "List files:"
-        ls -l
-        echo "Creating file"
-        touch temp.txt
-        echo "Git status:"
-        git status --porcelain
-        echo "List files:"
-        ls -l
-        echo "Deleting file"
-        rm temp.txt
-        echo "Git status:"
-        git status --porcelain
-        echo "List files:"
-        ls -l

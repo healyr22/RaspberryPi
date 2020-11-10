@@ -56,28 +56,6 @@ jobs:
         INSTALLATION_ID:  ${{ secrets.APP_INSTALLATION_ID }}
         GITHUB_TOKEN: ${{ steps.auth.outputs.token }}
         action: "START"
-    - name: Check path
-      run: |
-        echo "Git status:"
-        git status --porcelain
-        echo "List files:"
-        ls -l
-        echo "Creating file"
-        touch temp.txt
-        echo "Git status:"
-        git status --porcelain
-        echo "List files:"
-        ls -l
-        echo "Deleting file"
-        rm temp.txt
-        echo "Git status:"
-        git status --porcelain
-        echo "List files:"
-        ls -l
-    - name: Check path after
-      run: |
-        echo "Files are!"
-        ls -l
     - name: Print2
       run: echo "${{ toJson(steps.codeowners_start.outputs) }}"
     - name: Print
