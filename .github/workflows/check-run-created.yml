@@ -23,6 +23,8 @@ jobs:
         echo "List files:"
         ls -l
     - uses: actions/checkout@v2
+      with:
+        ref: "${{ github.event.check_run.head_sha }}"
     - name: Check path
       run: |
         echo "Git status:"
