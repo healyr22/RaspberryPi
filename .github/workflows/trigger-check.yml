@@ -55,7 +55,7 @@ jobs:
         APP_ID: ${{ secrets.APP_ID }}
         INSTALLATION_ID:  ${{ secrets.APP_INSTALLATION_ID }}
         GITHUB_TOKEN: ${{ steps.auth.outputs.token }}
-        action: "CHECK_CODEOWNERS"
+        action: "START"
     - name: Check path
       run: |
         echo "Git status:"
