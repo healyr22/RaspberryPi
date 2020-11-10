@@ -32,14 +32,9 @@ const start = async () => {
         "head_sha": github.context.sha,
         "status": status,
         "output": {
-            "title": "Created check-run!",
-            "summary": "This is a summary!"
-        },
-        "actions": [{
-            "label": "Button text",
-            "description": "Some description",
-            "identifier": "robs-action"
-            }]
+            "title": "Checking CODEOWNERS",
+            "summary": "This check ensures the root CODEOWNERS file was updated to reflect any nested CODEOWNERS files."
+        }
     };
 
     console.log("Payload: " + JSON.stringify(payload));
@@ -55,23 +50,39 @@ const finish = async (conclusion: conclusionType) => {
         auth: GITHUB_TOKEN
     });
 
-    console.log("Fithub context: " + JSON.stringify(github.context));
+    console.log("Github context: " + JSON.stringify(github.context));
 
     const status : statusType = "completed"
 
-    var payload = {
-        "name": "Success name?",
-        "owner": github.context.payload.repository.owner.login,
-        "repo": github.context.payload.repository.name,
-        "check_run_id": github.context.payload.check_run.id,
-        "head_sha": github.context.sha,
-        "status": status,
-        "output": {
-            "title": "Created check-run!",
-            "summary": "This is a summary!"
-        },
-        "conclusion": conclusion
-    };
+    var payload;
+    switch(conclusion) {
+        case "success":
+            payload = {
+                "owner": github.context.payload.repository.owner.login,
+                "repo": github.context.payload.repository.name,
+                "check_run_id": github.context.payload.check_run.id,
+                "status": status,
+                "output": {
+                    "title": "CODEOWNERS Correct!",
+                    "summary": "This check ensures the root CODEOWNERS file was updated to reflect any nested CODEOWNERS files."
+                },
+                "conclusion": conclusion
+            };
+            break;
+        case "failure":
+            payload = {
+                "owner": github.context.payload.repository.owner.login,
+                "repo": github.context.payload.repository.name,
+                "check_run_id": github.context.payload.check_run.id,
+                "status": status,
+                "output": {
+                    "title": "Missing CODEOWNERS Changes",
+                    "summary": "Looks like the root CODEOWNERS file has not been updated to reflect nested CODEOWNERS changes. Please run `codeowners-generator generate` and commit to fix."
+                },
+                "conclusion": conclusion
+            };
+            break;
+    }
 
     console.log("Payload: " + JSON.stringify(payload));
     
