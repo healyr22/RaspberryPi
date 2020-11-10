@@ -116,11 +116,14 @@ var finish = function (conclusion) { return __awaiter(void 0, void 0, void 0, fu
     });
 }); };
 var checkCodeOwners = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var name_1, token, APP_ID, INSTALLATION_ID, result_1, e_1;
+    var name_1, token, APP_ID, INSTALLATION_ID, owners, result_1, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 7, , 8]);
+                console.log("Checking codeowners...");
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 8, , 9]);
                 name_1 = core_1.getInput('NAME');
                 token = core_1.getInput('GITHUB_TOKEN');
                 APP_ID = core_1.getInput('APP_ID');
@@ -133,43 +136,37 @@ var checkCodeOwners = function () { return __awaiter(void 0, void 0, void 0, fun
                 console.log("INSTALLATION_ID: " + INSTALLATION_ID.slice(3, INSTALLATION_ID.length));
                 console.log("Got name " + name_1);
                 console.log("Got length " + name_1.length);
-                // const owners = generateCommand({parent:{}});
-                // console.log("Called codeowners");
-                // console.log("Owners: " + JSON.stringify(owners));
-                // const result = await exec('bash', [path.join(__dirname, './start.sh')]);
                 return [4 /*yield*/, codeowners_generator_1.generateCommand({ parent: {} })];
-            case 1:
-                // const owners = generateCommand({parent:{}});
-                // console.log("Called codeowners");
-                // console.log("Owners: " + JSON.stringify(owners));
-                // const result = await exec('bash', [path.join(__dirname, './start.sh')]);
-                _a.sent();
-                return [4 /*yield*/, git.status()];
             case 2:
+                owners = _a.sent();
+                console.log("Called codeowners");
+                console.log("Owners: " + JSON.stringify(owners));
+                return [4 /*yield*/, git.status()];
+            case 3:
                 result_1 = _a.sent();
                 console.log("Ran script");
-                if (!result_1.isClean()) return [3 /*break*/, 4];
+                if (!result_1.isClean()) return [3 /*break*/, 5];
                 console.log("CODEOWNERS ok!");
                 return [4 /*yield*/, finish("success")];
-            case 3:
-                _a.sent();
-                return [3 /*break*/, 6];
             case 4:
+                _a.sent();
+                return [3 /*break*/, 7];
+            case 5:
                 console.log("Need to run codeowners");
                 return [4 /*yield*/, finish("failure")];
-            case 5:
-                _a.sent();
-                _a.label = 6;
             case 6:
+                _a.sent();
+                _a.label = 7;
+            case 7:
                 core_1.setOutput('isValid', result_1.isClean());
                 core_1.setOutput('name', "Rob!");
-                return [3 /*break*/, 8];
-            case 7:
+                return [3 /*break*/, 9];
+            case 8:
                 e_1 = _a.sent();
                 console.error(err);
                 console.error(e_1);
-                return [3 /*break*/, 8];
-            case 8: return [2 /*return*/];
+                return [3 /*break*/, 9];
+            case 9: return [2 /*return*/];
         }
     });
 }); };

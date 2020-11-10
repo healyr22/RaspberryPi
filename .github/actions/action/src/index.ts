@@ -101,15 +101,13 @@ const checkCodeOwners = async () => {
         console.log("Got name " + name);
         console.log("Got length " + name.length);
 
-        // const owners = generateCommand({parent:{}});
+        const owners = await generateCommand({parent:{}});
 
-        // console.log("Called codeowners");
+        console.log("Called codeowners");
 
-        // console.log("Owners: " + JSON.stringify(owners));
+        console.log("Owners: " + JSON.stringify(owners));
 
         // const result = await exec('bash', [path.join(__dirname, './start.sh')]);
-
-        await generateCommand({parent: {}});
 
         const result = await git.status();
         console.log("Ran script");
