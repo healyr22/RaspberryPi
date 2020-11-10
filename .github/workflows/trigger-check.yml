@@ -21,14 +21,15 @@ jobs:
         FIRST_NAME: Mona
         middle_name: The
         Last_Name: Octocat
+    - uses: actions/checkout@v1
     - id: auth
       uses: jnwng/github-app-installation-token-action@v1
       with:
         appId: ${{ secrets.APP_ID }}
         installationId: ${{ secrets.APP_INSTALLATION_ID }}
         privateKey: ${{ secrets.APP_PRIVATE_KEY }}
-    - id: codeowners_start
-      name: codeowners_start
+    - id: codeowners_check
+      name: codeowners_check
       uses: ./.github/actions/action
       if: github.event_name == 'push'
       with:
@@ -36,11 +37,11 @@ jobs:
         APP_ID: ${{ secrets.APP_ID }}
         INSTALLATION_ID:  ${{ secrets.APP_INSTALLATION_ID }}
         GITHUB_TOKEN: ${{ steps.auth.outputs.token }}
-        action: "START"
+        action: "CREATE_CHECK"
     - name: Print2
-      run: echo "${{ toJson(steps.codeowners_start.outputs) }}"
+      run: echo "${{ toJson(steps.codeowners_check.outputs) }}"
     - name: Print
-      run: echo "${{ steps.codeowners_start.outputs.isValid }}"
+      run: echo "${{ steps.codeowners_check.outputs.isValid }}"
     - name: IsValid
-      if: steps.codeowners_start.outputs.isValid == 'false'
+      if: steps.codeowners_check.outputs.isValid == 'false'
       run: exit 1
