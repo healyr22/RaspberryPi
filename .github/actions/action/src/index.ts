@@ -15,7 +15,7 @@ type statusType =
 type conclusionType =
 | "success" | "failure";
 
-const createCheckRun = async () => {
+const start = async () => {
     console.log("Creating check run...");
     const GITHUB_TOKEN = getInput('GITHUB_TOKEN');
 
@@ -49,10 +49,10 @@ const conclusion : conclusionType = "failure"
     await octokit.checks.create(payload);
 };
 
-const success = async () => {
+const finish = async (conclusion: conclusionType) => {
     console.log("Marking check run successful...");
     const GITHUB_TOKEN = getInput('GITHUB_TOKEN');
-
+ 
     const octokit = new Octokit({
         auth: GITHUB_TOKEN
     });
@@ -60,7 +60,6 @@ const success = async () => {
     console.log("Fithub context: " + JSON.stringify(github.context));
 
     const status : statusType = "completed"
-    const conclusion : conclusionType = "success"
 
     var payload = {
         "name": "Success name?",
@@ -81,15 +80,9 @@ const success = async () => {
     await octokit.checks.update(payload);
 };
 
-export const main = async () => {
+const checkCodeOwners = async () => {
     try {
         // Check if CODEOWNERS file is correct by running codeowners-generator and ensuring no changes
-
-        // createCheckRun();
-        // Get the JSON webhook payload for the event that triggered the workflow
-        // console.log("Run ID: " + github.run_id);
-        // const payload = JSON.stringify(github.context.payload, undefined, 2)
-        // console.log(`The event payload: ${payload}`);
 
         const name = getInput('NAME');
         const token = getInput('GITHUB_TOKEN');
@@ -124,11 +117,10 @@ export const main = async () => {
 
         if(result.isClean()) {
             console.log("CODEOWNERS ok!");
-            await success();
+            await finish("success");
         } else {
             console.log("Need to run codeowners");
-            // Create check run
-            await createCheckRun();
+            await finish("failure");
         }
 
 
@@ -137,5 +129,17 @@ export const main = async () => {
     } catch(e) {
         console.error(err);
         console.error(e);
+    }
+};
+
+export const main = async () => {
+    const name = getInput('NAME');
+    switch(name) {
+        case "START":
+            await start();
+            break;
+        case "CHECK_CODEOWNERS":
+            await checkCodeOwners();
+            break;
     }
 };

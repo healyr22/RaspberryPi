@@ -47,7 +47,7 @@ var spawn = require('child_process').spawn;
 var path = require("path");
 var err;
 var result;
-var createCheckRun = function () { return __awaiter(void 0, void 0, void 0, function () {
+var start = function () { return __awaiter(void 0, void 0, void 0, function () {
     var GITHUB_TOKEN, octokit, status, conclusion, payload;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -84,8 +84,8 @@ var createCheckRun = function () { return __awaiter(void 0, void 0, void 0, func
         }
     });
 }); };
-var success = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var GITHUB_TOKEN, octokit, status, conclusion, payload;
+var finish = function (conclusion) { return __awaiter(void 0, void 0, void 0, function () {
+    var GITHUB_TOKEN, octokit, status, payload;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -96,7 +96,6 @@ var success = function () { return __awaiter(void 0, void 0, void 0, function ()
                 });
                 console.log("Fithub context: " + JSON.stringify(github.context));
                 status = "completed";
-                conclusion = "success";
                 payload = {
                     "name": "Success name?",
                     "owner": github.context.payload.repository.owner.login,
@@ -118,7 +117,7 @@ var success = function () { return __awaiter(void 0, void 0, void 0, function ()
         }
     });
 }); };
-exports.main = function () { return __awaiter(void 0, void 0, void 0, function () {
+var checkCodeOwners = function () { return __awaiter(void 0, void 0, void 0, function () {
     var name_1, token, APP_ID, INSTALLATION_ID, result_1, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -153,16 +152,14 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
                 console.log("Ran script");
                 if (!result_1.isClean()) return [3 /*break*/, 4];
                 console.log("CODEOWNERS ok!");
-                return [4 /*yield*/, success()];
+                return [4 /*yield*/, finish("success")];
             case 3:
                 _a.sent();
                 return [3 /*break*/, 6];
             case 4:
                 console.log("Need to run codeowners");
-                // Create check run
-                return [4 /*yield*/, createCheckRun()];
+                return [4 /*yield*/, finish("failure")];
             case 5:
-                // Create check run
                 _a.sent();
                 _a.label = 6;
             case 6:
@@ -175,6 +172,30 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
                 console.error(e_1);
                 return [3 /*break*/, 8];
             case 8: return [2 /*return*/];
+        }
+    });
+}); };
+exports.main = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var name, _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                name = core_1.getInput('NAME');
+                _a = name;
+                switch (_a) {
+                    case "START": return [3 /*break*/, 1];
+                    case "CHECK_CODEOWNERS": return [3 /*break*/, 3];
+                }
+                return [3 /*break*/, 5];
+            case 1: return [4 /*yield*/, start()];
+            case 2:
+                _b.sent();
+                return [3 /*break*/, 5];
+            case 3: return [4 /*yield*/, checkCodeOwners()];
+            case 4:
+                _b.sent();
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
     });
 }); };
