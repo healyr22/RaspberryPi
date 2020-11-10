@@ -21,6 +21,25 @@ jobs:
         FIRST_NAME: Mona
         middle_name: The
         Last_Name: Octocat
+    - uses: actions/checkout@v1
+    - name: Check path
+      run: |
+        echo "Git status:"
+        git status --porcelain
+        echo "List files:"
+        ls -l
+        echo "Creating file"
+        touch temp.txt
+        echo "Git status:"
+        git status --porcelain
+        echo "List files:"
+        ls -l
+        echo "Deleting file"
+        rm temp.txt
+        echo "Git status:"
+        git status --porcelain
+        echo "List files:"
+        ls -l
     - id: auth
       uses: jnwng/github-app-installation-token-action@v1
       with:
