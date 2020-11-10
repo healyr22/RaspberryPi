@@ -26,7 +26,6 @@ jobs:
     - id: codeowners_check
       name: codeowners_check
       uses: ./.github/actions/action
-      if: github.event_name == 'push'
       with:
         name: ${{ secrets.NAME }}
         APP_ID: ${{ secrets.APP_ID }}
