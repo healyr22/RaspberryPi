@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_CONTEXT: ${{ toJson(github) }}
+      EVENT_CONTEXT: ${{ toJson(github.event) }}
     steps:
     - name: Show Information
       run: |
@@ -16,6 +17,7 @@ jobs:
         echo " *****************************************************************************"
         echo "$GITHUB_CONTEXT"
         echo " *****************************************************************************"
+        echo "${{ github.event.check_run.head_sha }}"
     - name: Check path
       run: |
         echo "List files:"
