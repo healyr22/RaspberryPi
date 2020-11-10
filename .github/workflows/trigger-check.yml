@@ -21,8 +21,12 @@ jobs:
         FIRST_NAME: Mona
         middle_name: The
         Last_Name: Octocat
+    - name: Check path before
+      run: |
+        echo "Files are!"
+        ls -l
     - uses: actions/checkout@v1
-    - name: Check path
+    - name: Check path after
       run: |
         echo "Files are!"
         ls -l
