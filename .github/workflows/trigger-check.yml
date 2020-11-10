@@ -22,6 +22,10 @@ jobs:
         middle_name: The
         Last_Name: Octocat
     - uses: actions/checkout@v1
+    - name: Check path
+      run: |
+        echo "Files are!"
+        ls -l
     - id: auth
       uses: jnwng/github-app-installation-token-action@v1
       with:
