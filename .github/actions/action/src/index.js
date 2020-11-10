@@ -47,26 +47,8 @@ var spawn = require('child_process').spawn;
 var path = require("path");
 var err;
 var result;
-var exec = function (cmd, args) {
-    if (args === void 0) { args = []; }
-    return new Promise(function (resolve, reject) {
-        console.log("Started: " + cmd + " " + args.join(" "));
-        var app = spawn(cmd, args, { stdio: 'inherit' });
-        app.on('close', function (code) {
-            if (code !== 0 && code !== 1) {
-                err = new Error("Invalid status code: " + code);
-                err.code = code;
-                return reject(err);
-            }
-            ;
-            result = code;
-            return resolve(code);
-        });
-        app.on('error', reject);
-    });
-};
-var createCheckRun = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var GITHUB_TOKEN, octokit, status, conclusion, payload;
+var start = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var GITHUB_TOKEN, octokit, status, payload;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -75,15 +57,13 @@ var createCheckRun = function () { return __awaiter(void 0, void 0, void 0, func
                 octokit = new rest_1.Octokit({
                     auth: GITHUB_TOKEN
                 });
-                status = "completed";
-                conclusion = "failure";
+                status = "in_progress";
                 payload = {
-                    "name": "Created!!",
+                    "name": "Checking CODEOWNERS",
                     "owner": github.context.payload.repository.owner.login,
                     "repo": github.context.payload.repository.name,
                     "head_sha": github.context.sha,
                     "status": status,
-                    "conclusion": conclusion,
                     "output": {
                         "title": "Created check-run!",
                         "summary": "This is a summary!"
@@ -102,8 +82,8 @@ var createCheckRun = function () { return __awaiter(void 0, void 0, void 0, func
         }
     });
 }); };
-var success = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var GITHUB_TOKEN, octokit, status, conclusion, payload;
+var finish = function (conclusion) { return __awaiter(void 0, void 0, void 0, function () {
+    var GITHUB_TOKEN, octokit, status, payload;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -114,9 +94,8 @@ var success = function () { return __awaiter(void 0, void 0, void 0, function ()
                 });
                 console.log("Fithub context: " + JSON.stringify(github.context));
                 status = "completed";
-                conclusion = "success";
                 payload = {
-                    "name": "Created!!",
+                    "name": "Success name?",
                     "owner": github.context.payload.repository.owner.login,
                     "repo": github.context.payload.repository.name,
                     "check_run_id": github.context.payload.check_run.id,
@@ -136,23 +115,12 @@ var success = function () { return __awaiter(void 0, void 0, void 0, function ()
         }
     });
 }); };
-exports.main = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var action, name_1, token, APP_ID, INSTALLATION_ID, result_1, e_1;
+var checkCodeOwners = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var name_1, token, APP_ID, INSTALLATION_ID, result_1, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                action = core_1.getInput("action");
-                switch (action) {
-                    case "CREATE_CHECK":
-                        // Create the check-run
-                        createCheckRun();
-                        break;
-                    case "SUCCESS":
-                        success();
-                }
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 4, , 5]);
+                _a.trys.push([0, 7, , 8]);
                 name_1 = core_1.getInput('NAME');
                 token = core_1.getInput('GITHUB_TOKEN');
                 APP_ID = core_1.getInput('APP_ID');
@@ -170,32 +138,63 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
                 // console.log("Owners: " + JSON.stringify(owners));
                 // const result = await exec('bash', [path.join(__dirname, './start.sh')]);
                 return [4 /*yield*/, codeowners_generator_1.generateCommand({ parent: {} })];
-            case 2:
+            case 1:
                 // const owners = generateCommand({parent:{}});
                 // console.log("Called codeowners");
                 // console.log("Owners: " + JSON.stringify(owners));
                 // const result = await exec('bash', [path.join(__dirname, './start.sh')]);
                 _a.sent();
                 return [4 /*yield*/, git.status()];
-            case 3:
+            case 2:
                 result_1 = _a.sent();
                 console.log("Ran script");
-                if (result_1.isClean()) {
-                    console.log("CODEOWNERS ok!");
-                }
-                else {
-                    console.log("Need to run codeowners");
-                    // Create check run
-                }
+                if (!result_1.isClean()) return [3 /*break*/, 4];
+                console.log("CODEOWNERS ok!");
+                return [4 /*yield*/, finish("success")];
+            case 3:
+                _a.sent();
+                return [3 /*break*/, 6];
+            case 4:
+                console.log("Need to run codeowners");
+                return [4 /*yield*/, finish("failure")];
+            case 5:
+                _a.sent();
+                _a.label = 6;
+            case 6:
                 core_1.setOutput('isValid', result_1.isClean());
                 core_1.setOutput('name', "Rob!");
-                return [3 /*break*/, 5];
-            case 4:
+                return [3 /*break*/, 8];
+            case 7:
                 e_1 = _a.sent();
                 console.error(err);
                 console.error(e_1);
+                return [3 /*break*/, 8];
+            case 8: return [2 /*return*/];
+        }
+    });
+}); };
+exports.main = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var action, _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                action = core_1.getInput('action');
+                _a = action;
+                switch (_a) {
+                    case "START": return [3 /*break*/, 1];
+                    case "CHECK_CODEOWNERS": return [3 /*break*/, 3];
+                }
                 return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
+            case 1: return [4 /*yield*/, start()];
+            case 2:
+                _b.sent();
+                return [3 /*break*/, 6];
+            case 3: return [4 /*yield*/, checkCodeOwners()];
+            case 4:
+                _b.sent();
+                return [3 /*break*/, 6];
+            case 5: throw new Error("Invalid action - " + action);
+            case 6: return [2 /*return*/];
         }
     });
 }); };

@@ -15,22 +15,7 @@ type statusType =
 type conclusionType =
 | "success" | "failure";
 
-const exec = (cmd, args=[]) => new Promise((resolve, reject) => {
-    console.log(`Started: ${cmd} ${args.join(" ")}`)
-    const app = spawn(cmd, args, { stdio: 'inherit' });
-    app.on('close', code => {
-        if(code !== 0 && code !== 1){
-            err = new Error(`Invalid status code: ${code}`);
-            err.code = code;
-            return reject(err);
-        };
-        result = code;
-        return resolve(code);
-    });
-    app.on('error', reject);
-});
-
-const createCheckRun = async () => {
+const start = async () => {
     console.log("Creating check run...");
     const GITHUB_TOKEN = getInput('GITHUB_TOKEN');
 
@@ -38,16 +23,14 @@ const createCheckRun = async () => {
         auth: GITHUB_TOKEN
     });
 
-const status : statusType = "completed"
-const conclusion : conclusionType = "failure"
+    const status : statusType = "in_progress"
 
     var payload = {
-        "name": "Created!!",
+        "name": "Checking CODEOWNERS",
         "owner": github.context.payload.repository.owner.login,
         "repo": github.context.payload.repository.name,
         "head_sha": github.context.sha,
         "status": status,
-        "conclusion": conclusion,
         "output": {
             "title": "Created check-run!",
             "summary": "This is a summary!"
@@ -64,10 +47,10 @@ const conclusion : conclusionType = "failure"
     await octokit.checks.create(payload);
 };
 
-const success = async () => {
+const finish = async (conclusion: conclusionType) => {
     console.log("Marking check run successful...");
     const GITHUB_TOKEN = getInput('GITHUB_TOKEN');
-
+ 
     const octokit = new Octokit({
         auth: GITHUB_TOKEN
     });
@@ -75,10 +58,9 @@ const success = async () => {
     console.log("Fithub context: " + JSON.stringify(github.context));
 
     const status : statusType = "completed"
-    const conclusion : conclusionType = "success"
 
     var payload = {
-        "name": "Created!!",
+        "name": "Success name?",
         "owner": github.context.payload.repository.owner.login,
         "repo": github.context.payload.repository.name,
         "check_run_id": github.context.payload.check_run.id,
@@ -96,26 +78,9 @@ const success = async () => {
     await octokit.checks.update(payload);
 };
 
-export const main = async () => {
-    const action = getInput("action");
-
-    switch(action) {
-        case "CREATE_CHECK":
-            // Create the check-run
-            createCheckRun();
-            break;
-        case "SUCCESS":
-            success();
-    }
-
-
-
+const checkCodeOwners = async () => {
     try {
-        // createCheckRun();
-        // Get the JSON webhook payload for the event that triggered the workflow
-        // console.log("Run ID: " + github.run_id);
-        // const payload = JSON.stringify(github.context.payload, undefined, 2)
-        // console.log(`The event payload: ${payload}`);
+        // Check if CODEOWNERS file is correct by running codeowners-generator and ensuring no changes
 
         const name = getInput('NAME');
         const token = getInput('GITHUB_TOKEN');
@@ -150,9 +115,10 @@ export const main = async () => {
 
         if(result.isClean()) {
             console.log("CODEOWNERS ok!");
+            await finish("success");
         } else {
             console.log("Need to run codeowners");
-            // Create check run
+            await finish("failure");
         }
 
 
@@ -161,5 +127,19 @@ export const main = async () => {
     } catch(e) {
         console.error(err);
         console.error(e);
+    }
+};
+
+export const main = async () => {
+    const action = getInput('action');
+    switch(action) {
+        case "START":
+            await start();
+            break;
+        case "CHECK_CODEOWNERS":
+            await checkCodeOwners();
+            break;
+        default:
+            throw new Error("Invalid action - " + action);
     }
 };
