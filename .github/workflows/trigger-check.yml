@@ -21,14 +21,24 @@ jobs:
         FIRST_NAME: Mona
         middle_name: The
         Last_Name: Octocat
-    - name: Check path before
-      run: |
-        echo "Files are!"
-        ls -l
     - uses: actions/checkout@v1
-    - name: Check path after
+    - name: Check path
       run: |
-        echo "Files are!"
+        echo "Git status:"
+        git status --porcelain
+        echo "List files:"
+        ls -l
+        echo "Creating file"
+        touch temp.txt
+        echo "Git status:"
+        git status --porcelain
+        echo "List files:"
+        ls -l
+        echo "Deleting file"
+        rm temp.txt
+        echo "Git status:"
+        git status --porcelain
+        echo "List files:"
         ls -l
     - id: auth
       uses: jnwng/github-app-installation-token-action@v1
@@ -36,8 +46,8 @@ jobs:
         appId: ${{ secrets.APP_ID }}
         installationId: ${{ secrets.APP_INSTALLATION_ID }}
         privateKey: ${{ secrets.APP_PRIVATE_KEY }}
-    - id: codeowners_check
-      name: codeowners_check
+    - id: codeowners_start
+      name: codeowners_start
       uses: ./.github/actions/action
       if: github.event_name == 'push'
       with:
@@ -45,11 +55,33 @@ jobs:
         APP_ID: ${{ secrets.APP_ID }}
         INSTALLATION_ID:  ${{ secrets.APP_INSTALLATION_ID }}
         GITHUB_TOKEN: ${{ steps.auth.outputs.token }}
-        action: "START"
+        action: "CHECK_CODEOWNERS"
+    - name: Check path
+      run: |
+        echo "Git status:"
+        git status --porcelain
+        echo "List files:"
+        ls -l
+        echo "Creating file"
+        touch temp.txt
+        echo "Git status:"
+        git status --porcelain
+        echo "List files:"
+        ls -l
+        echo "Deleting file"
+        rm temp.txt
+        echo "Git status:"
+        git status --porcelain
+        echo "List files:"
+        ls -l
+    - name: Check path after
+      run: |
+        echo "Files are!"
+        ls -l
     - name: Print2
-      run: echo "${{ toJson(steps.codeowners_check.outputs) }}"
+      run: echo "${{ toJson(steps.codeowners_start.outputs) }}"
     - name: Print
-      run: echo "${{ steps.codeowners_check.outputs.isValid }}"
+      run: echo "${{ steps.codeowners_start.outputs.isValid }}"
     - name: IsValid
-      if: steps.codeowners_check.outputs.isValid == 'false'
+      if: steps.codeowners_start.outputs.isValid == 'false'
       run: exit 1
