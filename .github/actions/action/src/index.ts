@@ -133,13 +133,15 @@ const checkCodeOwners = async () => {
 };
 
 export const main = async () => {
-    const name = getInput('NAME');
-    switch(name) {
+    const action = getInput('action');
+    switch(action) {
         case "START":
             await start();
             break;
         case "CHECK_CODEOWNERS":
             await checkCodeOwners();
             break;
+        default:
+            throw new Error("Invalid action - " + action);
     }
 };

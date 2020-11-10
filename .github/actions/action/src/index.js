@@ -176,12 +176,12 @@ var checkCodeOwners = function () { return __awaiter(void 0, void 0, void 0, fun
     });
 }); };
 exports.main = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var name, _a;
+    var action, _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                name = core_1.getInput('NAME');
-                _a = name;
+                action = core_1.getInput('action');
+                _a = action;
                 switch (_a) {
                     case "START": return [3 /*break*/, 1];
                     case "CHECK_CODEOWNERS": return [3 /*break*/, 3];
@@ -190,12 +190,13 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
             case 1: return [4 /*yield*/, start()];
             case 2:
                 _b.sent();
-                return [3 /*break*/, 5];
+                return [3 /*break*/, 6];
             case 3: return [4 /*yield*/, checkCodeOwners()];
             case 4:
                 _b.sent();
-                return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
+                return [3 /*break*/, 6];
+            case 5: throw new Error("Invalid action - " + action);
+            case 6: return [2 /*return*/];
         }
     });
 }); };
