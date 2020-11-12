@@ -108,6 +108,11 @@ const checkCodeOwners = async () => {
 };
 
 export const main = async () => {
+    // Test if can do other way
+    console.log("GOT: " + JSON.stringify(process.env));
+
+
+    
     const action = getInput('action');
     switch(action) {
         case "START":

@@ -165,6 +165,8 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
+                // Test if can do other way
+                console.log("GOT: " + JSON.stringify(process.env));
                 action = core_1.getInput('action');
                 _a = action;
                 switch (_a) {
