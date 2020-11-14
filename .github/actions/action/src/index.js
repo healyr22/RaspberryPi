@@ -161,12 +161,18 @@ var checkCodeOwners = function () { return __awaiter(void 0, void 0, void 0, fun
     });
 }); };
 exports.main = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var action, _a;
+    var context, action, _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 // Test if can do other way
-                console.log("GOT: " + JSON.stringify(process.env));
+                // console.log("GOT: " + JSON.parse(process.env.GITHUB_CONTEXT));
+                console.log("GOT: " + process.env.GITHUB_CONTEXT);
+                context = JSON.parse(process.env.GITHUB_CONTEXT);
+                console.log("Old: " + github.context.payload.repository.owner.login);
+                console.log("New: " + context.repository_owner);
+                console.log("Old: " + github.context.payload.repository.name);
+                console.log("New: " + JSON.stringify(context.repository_owner));
                 action = core_1.getInput('action');
                 _a = action;
                 switch (_a) {
