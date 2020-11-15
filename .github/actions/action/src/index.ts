@@ -13,6 +13,7 @@ type conclusionType =
 
 const start = async () => {
     console.log("Creating check run...");
+    console.log("GOT: " + process.env.GITHUB_CONTEXT);
     const GITHUB_TOKEN = getInput('githubToken');
 
     const octokit = new Octokit({
@@ -118,8 +119,10 @@ export const main = async () => {
     console.log("New: " + context.repository_owner);
 
     console.log("Old: " + github.context.payload.repository.name);
-    console.log("New: " + JSON.stringify(context.repository_owner));
+    console.log("New: " + JSON.stringify(context.repository.name));
 
+    console.log("Old: " + github.context.sha);
+    console.log("New: " + JSON.stringify(context.sha));
 
     
     const action = getInput('action');

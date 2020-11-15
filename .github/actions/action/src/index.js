@@ -49,6 +49,7 @@ var start = function () { return __awaiter(void 0, void 0, void 0, function () {
         switch (_a.label) {
             case 0:
                 console.log("Creating check run...");
+                console.log("GOT: " + process.env.GITHUB_CONTEXT);
                 GITHUB_TOKEN = core_1.getInput('githubToken');
                 octokit = new rest_1.Octokit({
                     auth: GITHUB_TOKEN
@@ -172,7 +173,9 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
                 console.log("Old: " + github.context.payload.repository.owner.login);
                 console.log("New: " + context.repository_owner);
                 console.log("Old: " + github.context.payload.repository.name);
-                console.log("New: " + JSON.stringify(context.repository_owner));
+                console.log("New: " + JSON.stringify(context.repository.name));
+                console.log("Old: " + github.context.sha);
+                console.log("New: " + JSON.stringify(context.sha));
                 action = core_1.getInput('action');
                 _a = action;
                 switch (_a) {
