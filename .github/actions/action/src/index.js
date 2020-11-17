@@ -170,7 +170,7 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
                 console.log("Old: " + github.context.payload.repository.owner.login);
                 console.log("New: " + context.repository_owner);
                 console.log("Old: " + github.context.payload.repository.name);
-                console.log("New: " + JSON.stringify(context.repository.name));
+                console.log("New: " + JSON.stringify(context.event.repository.name));
                 console.log("Old: " + github.context.sha);
                 console.log("New: " + JSON.stringify(context.sha));
                 action = core_1.getInput('action');
