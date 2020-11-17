@@ -4,8 +4,6 @@ import { generateCommand } from 'codeowners-generator';
 import simpleGit, {SimpleGit} from 'simple-git';
 const git: SimpleGit = simpleGit();
 
-const github = require('@actions/github');
-
 type statusType =
 | "in_progress" | "completed";
 type conclusionType =
@@ -14,6 +12,7 @@ type conclusionType =
 const start = async () => {
     console.log("Creating check run...");
     console.log("GOT: " + process.env.GITHUB_CONTEXT);
+    var context = JSON.parse(process.env.GITHUB_CONTEXT);
     const GITHUB_TOKEN = getInput('githubToken');
 
     const octokit = new Octokit({
@@ -24,9 +23,9 @@ const start = async () => {
 
     var payload = {
         "name": "CODEOWNERS Check",
-        "owner": github.context.payload.repository.owner.login,
-        "repo": github.context.payload.repository.name,
-        "head_sha": github.context.sha,
+        "owner": context.repository_owner,
+        "repo": context.event.repository.name,
+        "head_sha": context.sha,
         "status": status,
         "output": {
             "title": "Checking CODEOWNERS",
@@ -41,23 +40,24 @@ const start = async () => {
 
 const finish = async (conclusion: conclusionType) => {
     console.log("Marking check run successful...");
+    console.log("GOT: " + process.env.GITHUB_CONTEXT);
+    var context = JSON.parse(process.env.GITHUB_CONTEXT);
     const GITHUB_TOKEN = getInput('githubToken');
  
     const octokit = new Octokit({
         auth: GITHUB_TOKEN
     });
 
-    console.log("Github context: " + JSON.stringify(github.context));
-
     const status : statusType = "completed"
+    var github = {};
 
     var payload;
     switch(conclusion) {
         case "success":
             payload = {
-                "owner": github.context.payload.repository.owner.login,
-                "repo": github.context.payload.repository.name,
-                "check_run_id": github.context.payload.check_run.id,
+                "owner": context.repository_owner,
+                "repo": context.event.repository.name,
+                "check_run_id": "github.context.payload.check_run.id",
                 "status": status,
                 "output": {
                     "title": "CODEOWNERS Correct!",
@@ -68,9 +68,9 @@ const finish = async (conclusion: conclusionType) => {
             break;
         case "failure":
             payload = {
-                "owner": github.context.payload.repository.owner.login,
-                "repo": github.context.payload.repository.name,
-                "check_run_id": github.context.payload.check_run.id,
+                "owner": context.repository_owner,
+                "repo": context.event.repository.name,
+                "check_run_id": "github.context.payload.check_run.id",
                 "status": status,
                 "output": {
                     "title": "Missing CODEOWNERS Changes",
@@ -108,23 +108,7 @@ const checkCodeOwners = async () => {
     }
 };
 
-export const main = async () => {
-    // Test if can do other way
-    // console.log("GOT: " + JSON.parse(process.env.GITHUB_CONTEXT));
-    // console.log("GOT: " + process.env.GITHUB_CONTEXT);
-    var context = JSON.parse(process.env.GITHUB_CONTEXT);
-
-
-    console.log("Old: " + github.context.payload.repository.owner.login);
-    console.log("New: " + context.repository_owner);
-
-    console.log("Old: " + github.context.payload.repository.name);
-    console.log("New: " + JSON.stringify(context.event.repository.name));
-
-    console.log("Old: " + github.context.sha);
-    console.log("New: " + JSON.stringify(context.sha));
-
-    
+export const main = async () => {    
     const action = getInput('action');
     switch(action) {
         case "START":

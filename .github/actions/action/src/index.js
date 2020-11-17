@@ -42,14 +42,14 @@ var rest_1 = require("@octokit/rest");
 var codeowners_generator_1 = require("codeowners-generator");
 var simple_git_1 = require("simple-git");
 var git = simple_git_1["default"]();
-var github = require('@actions/github');
 var start = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var GITHUB_TOKEN, octokit, status, payload;
+    var context, GITHUB_TOKEN, octokit, status, payload;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 console.log("Creating check run...");
                 console.log("GOT: " + process.env.GITHUB_CONTEXT);
+                context = JSON.parse(process.env.GITHUB_CONTEXT);
                 GITHUB_TOKEN = core_1.getInput('githubToken');
                 octokit = new rest_1.Octokit({
                     auth: GITHUB_TOKEN
@@ -57,9 +57,9 @@ var start = function () { return __awaiter(void 0, void 0, void 0, function () {
                 status = "in_progress";
                 payload = {
                     "name": "CODEOWNERS Check",
-                    "owner": github.context.payload.repository.owner.login,
-                    "repo": github.context.payload.repository.name,
-                    "head_sha": github.context.sha,
+                    "owner": context.repository_owner,
+                    "repo": context.event.repository.name,
+                    "head_sha": context.sha,
                     "status": status,
                     "output": {
                         "title": "Checking CODEOWNERS",
@@ -75,23 +75,25 @@ var start = function () { return __awaiter(void 0, void 0, void 0, function () {
     });
 }); };
 var finish = function (conclusion) { return __awaiter(void 0, void 0, void 0, function () {
-    var GITHUB_TOKEN, octokit, status, payload;
+    var context, GITHUB_TOKEN, octokit, status, github, payload;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 console.log("Marking check run successful...");
+                console.log("GOT: " + process.env.GITHUB_CONTEXT);
+                context = JSON.parse(process.env.GITHUB_CONTEXT);
                 GITHUB_TOKEN = core_1.getInput('githubToken');
                 octokit = new rest_1.Octokit({
                     auth: GITHUB_TOKEN
                 });
-                console.log("Github context: " + JSON.stringify(github.context));
                 status = "completed";
+                github = {};
                 switch (conclusion) {
                     case "success":
                         payload = {
-                            "owner": github.context.payload.repository.owner.login,
-                            "repo": github.context.payload.repository.name,
-                            "check_run_id": github.context.payload.check_run.id,
+                            "owner": context.repository_owner,
+                            "repo": context.event.repository.name,
+                            "check_run_id": "github.context.payload.check_run.id",
                             "status": status,
                             "output": {
                                 "title": "CODEOWNERS Correct!",
@@ -102,9 +104,9 @@ var finish = function (conclusion) { return __awaiter(void 0, void 0, void 0, fu
                         break;
                     case "failure":
                         payload = {
-                            "owner": github.context.payload.repository.owner.login,
-                            "repo": github.context.payload.repository.name,
-                            "check_run_id": github.context.payload.check_run.id,
+                            "owner": context.repository_owner,
+                            "repo": context.event.repository.name,
+                            "check_run_id": "github.context.payload.check_run.id",
                             "status": status,
                             "output": {
                                 "title": "Missing CODEOWNERS Changes",
@@ -162,17 +164,10 @@ var checkCodeOwners = function () { return __awaiter(void 0, void 0, void 0, fun
     });
 }); };
 exports.main = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var context, action, _a;
+    var action, _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                context = JSON.parse(process.env.GITHUB_CONTEXT);
-                console.log("Old: " + github.context.payload.repository.owner.login);
-                console.log("New: " + context.repository_owner);
-                console.log("Old: " + github.context.payload.repository.name);
-                console.log("New: " + JSON.stringify(context.event.repository.name));
-                console.log("Old: " + github.context.sha);
-                console.log("New: " + JSON.stringify(context.sha));
                 action = core_1.getInput('action');
                 _a = action;
                 switch (_a) {
