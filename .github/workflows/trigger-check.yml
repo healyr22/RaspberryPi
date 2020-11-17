@@ -13,33 +13,7 @@ jobs:
         echo " *****************************************************************************"
         echo "$GITHUB_CONTEXT"
         echo " *****************************************************************************"
-    - name: Hello world
-      run: |
-        echo Hello world $FIRST_NAME $middle_name $Last_Name!
-        echo "Hello ${{ github.event_name }}!"
-      env:
-        FIRST_NAME: Mona
-        middle_name: The
-        Last_Name: Octocat
     - uses: actions/checkout@v1
-    - name: Check path
-      run: |
-        echo "Git status:"
-        git status --porcelain
-        echo "List files:"
-        ls -l
-        echo "Creating file"
-        touch temp.txt
-        echo "Git status:"
-        git status --porcelain
-        echo "List files:"
-        ls -l
-        echo "Deleting file"
-        rm temp.txt
-        echo "Git status:"
-        git status --porcelain
-        echo "List files:"
-        ls -l
     - id: auth
       uses: jnwng/github-app-installation-token-action@v1
       with:
@@ -51,15 +25,5 @@ jobs:
       uses: ./.github/actions/action
       if: github.event_name == 'push'
       with:
-        name: ${{ secrets.NAME }}
-        APP_ID: ${{ secrets.APP_ID }}
-        INSTALLATION_ID:  ${{ secrets.APP_INSTALLATION_ID }}
-        GITHUB_TOKEN: ${{ steps.auth.outputs.token }}
+        githubToken: ${{ steps.auth.outputs.token }}
         action: "START"
-    - name: Print2
-      run: echo "${{ toJson(steps.codeowners_start.outputs) }}"
-    - name: Print
-      run: echo "${{ steps.codeowners_start.outputs.isValid }}"
-    - name: IsValid
-      if: steps.codeowners_start.outputs.isValid == 'false'
-      run: exit 1
