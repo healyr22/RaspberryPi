@@ -166,9 +166,6 @@ exports.main = function () { return __awaiter(void 0, void 0, void 0, function (
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                // Test if can do other way
-                // console.log("GOT: " + JSON.parse(process.env.GITHUB_CONTEXT));
-                console.log("GOT: " + process.env.GITHUB_CONTEXT);
                 context = JSON.parse(process.env.GITHUB_CONTEXT);
                 console.log("Old: " + github.context.payload.repository.owner.login);
                 console.log("New: " + context.repository_owner);
