@@ -57,7 +57,7 @@ const finish = async (conclusion: conclusionType) => {
             payload = {
                 "owner": context.repository_owner,
                 "repo": context.event.repository.name,
-                "check_run_id": "github.context.payload.check_run.id",
+                "check_run_id": context.event.check_run.id,
                 "status": status,
                 "output": {
                     "title": "CODEOWNERS Correct!",
@@ -70,7 +70,7 @@ const finish = async (conclusion: conclusionType) => {
             payload = {
                 "owner": context.repository_owner,
                 "repo": context.event.repository.name,
-                "check_run_id": "github.context.payload.check_run.id",
+                "check_run_id": context.event.check_run.id,
                 "status": status,
                 "output": {
                     "title": "Missing CODEOWNERS Changes",
