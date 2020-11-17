@@ -111,7 +111,7 @@ const checkCodeOwners = async () => {
 export const main = async () => {
     // Test if can do other way
     // console.log("GOT: " + JSON.parse(process.env.GITHUB_CONTEXT));
-    console.log("GOT: " + process.env.GITHUB_CONTEXT);
+    // console.log("GOT: " + process.env.GITHUB_CONTEXT);
     var context = JSON.parse(process.env.GITHUB_CONTEXT);
 
 
