@@ -1,0 +1,6 @@
+The lambda was cool. For NodeJs, used a handler in index.js. for Java, just pointed to the main class
+https://us-east-2.console.aws.amazon.com/lambda/home?region=us-east-2#/functions/RobEndpoint?tab=configuration
+
+For the google action, currently using HellowWorld and it calls the web hook
+
+https://console.actions.google.com/project/helloworld-4277a/simulator
