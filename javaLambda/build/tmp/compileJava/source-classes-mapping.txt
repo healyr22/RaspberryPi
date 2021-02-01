@@ -1,0 +1,4 @@
+com/robware/whichbin/Main.java
+ com.robware.whichbin.Main
+com/robware/whichbin/WhichBinDetector.java
+ com.robware.whichbin.WhichBinDetector
