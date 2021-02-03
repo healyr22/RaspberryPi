@@ -4,3 +4,10 @@ https://us-east-2.console.aws.amazon.com/lambda/home?region=us-east-2#/functions
 For the google action, currently using HellowWorld and it calls the web hook
 
 https://console.actions.google.com/project/helloworld-4277a/simulator
+
+
+Nodejs won't work because puppeteer dependency is too large for lambda apparently. Tried using lambda layers but couldn't get it to work
+
+Java won't work because you need to install a driver (would need a Vm like docker or something)
+
+Perhaps next steps is to setup my own server here
