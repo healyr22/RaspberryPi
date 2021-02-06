@@ -1,0 +1,15 @@
+{
+  "name": "which_bin_app",
+  "version": "1.0.0",
+  "description": "Which bin?",
+  "author": "Rob Healy <robert.healy3@gmail.com>",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.5",
+    "express": "^4.17.1",
+    "puppeteer": "^7.0.1"
+  }
+}

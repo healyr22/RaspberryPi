@@ -124,7 +124,7 @@ const url = 'http://toronto.ca/services-payments/recycling-organics-garbage/hous
 
 const run = async () => {
     console.log("start");
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({args: ['--no-sandbox']} );
     const page = await browser.newPage();
     await page.goto(url);
     await page.waitForFunction(
@@ -142,7 +142,11 @@ const run = async () => {
     });
     console.log(array);
     console.log("DONE");
+    return array.splice(0, 2);
 }
 
-run();
+// run();
 
+module.exports = {
+  check: run
+};
