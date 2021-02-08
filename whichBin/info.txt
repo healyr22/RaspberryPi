@@ -1,0 +1,22 @@
+Create new docker image
+docker build -t healyr22/which-bin-app .
+
+Publish image
+docker image push healyr22/which-bin-app
+
+SSH into ec2 instance:
+ssh -i robs-ec2-key-pair.pem ec2-user@18.218.220.92
+
+Run image
+docker run -d -p 80:8080 healyr22/which-bin-app:latest
+
+Instance page:
+https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#Instances:
+
+
+
+Next steps:
+- Need to enable https. Tried to do this from docker, but I think it needs to be done from aws
+- Apparently need a cert for SSL https://stackoverflow.com/questions/57239213/how-to-enable-https-on-aws-ec2-running-an-nginx-docker-container
+- which means an ALB (load balancer)
+- In order to get a cert, need a domain, which means I need a hosted domain from AWN. robware.com time?
